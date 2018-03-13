@@ -1,0 +1,30 @@
+db.FanTheories.insert(
+{
+  title: 'Tyrion Targeryan',
+  body: 'Tyrion Lannister is a Targeryan',
+  author: 'Swabhimaan Dash',
+  noOfLikes: 0,
+  date: '',
+  time: '',
+  comments: [
+    {
+      body: 'Awesome',
+      commentedBy: 'Sudhosil Panda',
+      date: '',
+      time: ''
+    },
+    {
+      body: 'Old theory',
+      commentedBy: 'Harry Panda',
+      date: '',
+      time: ''
+    },
+    {
+      body: 'Nice',
+      commentedBy: 'Babulu Panda',
+      date: '',
+      time: ''
+    }
+  ]
+}
+);

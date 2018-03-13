@@ -1,0 +1,10 @@
+<% include partials/header %>
+
+<ul class="list-group">
+  <% fanTheories.forEach(function(fanTheory){ %>
+    <% let link = "/fanTheories/details/" + fanTheory._id.toString() %>
+    <li class="list-group-item"><a href="<%=link%>"><%= fanTheory.title %></a></li>
+  <% }) %>
+</ul>
+
+<% include partials/footer %>

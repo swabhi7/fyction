@@ -1,0 +1,7 @@
+extends layout
+
+block content
+  h1 #{pageDescription}
+  ul
+    each fanTheory in fanTheories
+      li #{fanTheory.title}

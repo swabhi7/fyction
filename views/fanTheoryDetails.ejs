@@ -1,0 +1,15 @@
+<% include partials/header %>
+
+<h1><%= fanTheory.title %></h1>
+<h5><%= fanTheory.body %></h5>
+<h5>Written by - <%= fanTheory.author %></h5>
+<br>
+<% let link = "/fanTheories/edit/" + fanTheory._id %>
+<% if(user){ %>
+  <% if(user.name == fanTheory.author){ %>
+    <a class="btn btn-primary" href="<%= link %>" + >Edit</a>
+    <a class="btn btn-danger deleteFanTheory" href="#" data-id="<%=fanTheory._id%>" >Delete</a>
+  <%}%>
+<%}%>
+
+<% include partials/footer %>

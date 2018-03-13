@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  h1 #{pageDescription}
+  form(method= 'POST' action= '/fanTheories/add')
+    #form-group
+      label Title :
+      input.form-control(name = 'title', type = 'text')
+    #form-group
+      label Description :
+      br
+      textarea.form-control(name = 'description')
+    br
+    input.btn.btn-primary(type = 'submit', value = 'Submit')
