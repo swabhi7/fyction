@@ -80,6 +80,17 @@ router.get('/logout', function(req, res){
   res.redirect('/users/login');
 });
 
+router.get('/profile/:id', function(req, res){
+  Users.findById(req.params.id, function(err, user){
+
+    res.render('userProfile', {
+      pageDescription : 'My Profile',
+      user : user,
+      errors:false
+    });
+  });
+});
+
 
 
 module.exports = router;

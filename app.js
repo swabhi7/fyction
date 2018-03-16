@@ -78,18 +78,54 @@ app.get('*', function(req, res, next){
 });
 
 app.get('/', function(req, res){
-  FanTheories.find({}, function(err, FanTheories){
-    if(err){
-      console.log(err);
-    }
-    else{
-      //console.log(FanTheories);
-      res.render('index', {
-        pageDescription: 'The Home route',
-        fanTheories: FanTheories,
-        errors:false
-      });
-    }
+  if(req.user){
+    FanTheories.find({}, function(err, FanTheories){
+      if(err){
+        console.log(err);
+      }
+      else{
+        //console.log(FanTheories);
+        res.render('index', {
+          pageDescription: 'The Home route',
+          fanTheories: FanTheories,
+          errors:false
+        });
+      }
+    });
+  }
+  else{
+    res.render('preLoginHome', {
+      pageDescription: 'The Nerd Home',
+      errors: false
+    });
+  }
+});
+
+app.get('/preLoginHome', function(req, res){
+  res.render('preLoginHome', {
+    pageDescription: 'The Nerd Home',
+    errors: false
+  });
+});
+
+app.get('/about', function(req, res){
+  res.render('about', {
+    pageDescription: 'About',
+    errors: false
+  });
+});
+
+app.get('/contact', function(req, res){
+  res.render('contact', {
+    pageDescription: 'Contact',
+    errors: false
+  });
+});
+
+app.get('/sendFeedback', function(req, res){
+  res.render('sendFeedback', {
+    pageDescription: 'Send Feedback',
+    errors: false
   });
 });
 

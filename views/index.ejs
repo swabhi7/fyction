@@ -1,10 +1,59 @@
 <% include partials/header %>
 
-<ul class="list-group">
-  <% fanTheories.forEach(function(fanTheory){ %>
-    <% let link = "/fanTheories/details/" + fanTheory._id.toString() %>
-    <li class="list-group-item"><a href="<%=link%>"><%= fanTheory.title %></a></li>
-  <% }) %>
-</ul>
+<div class="container">
+
+<div class="row">
+  <div class="col-12">
+
+    <!-- Nav pills -->
+    <ul class="nav nav-pills nav-justified">
+      <li class="nav-item">
+        <a class="nav-link active text-dark" data-toggle="pill" href="#fanTheories">Fan Theories</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link  text-dark" data-toggle="pill" href="#fanFictions">Fan Fictions</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link  text-dark" data-toggle="pill" href="#qna">Q-N-A</a>
+      </li>
+    </ul>
+
+<br>
+
+
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+
+      <div class="tab-pane active container" id="fanTheories">
+        <ul class="list-group">
+          <% fanTheories.forEach(function(fanTheory){ %>
+            <% let link = "/fanTheories/details/" + fanTheory._id.toString() %>
+            <li class="list-group-item"><!--<a href="<%=link%>">-->
+              <h2><%= fanTheory.title %></h2>
+              <hr>
+              <p><%= fanTheory.body %></p>
+              <p>Author - <%= fanTheory.author %></p>
+            <!--</a>--></li>
+          <% }) %>
+        </ul>
+      </div>
+
+      <div class="tab-pane container" id="fanFictions">Fan Fictions</div>
+      <div class="tab-pane container" id="qna">QNA</div>
+
+    </div>
+
+  </div>
+
+</div>
+
+</div>
+</div>
 
 <% include partials/footer %>

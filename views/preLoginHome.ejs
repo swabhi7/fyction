@@ -1,0 +1,80 @@
+<% include partials/header %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-7">
+
+      <div id="demo" class="carousel slide" data-ride="carousel">
+
+        <!-- Indicators -->
+        <ul class="carousel-indicators">
+          <li data-target="#demo" data-slide-to="0" class="active"></li>
+          <li data-target="#demo" data-slide-to="1"></li>
+          <li data-target="#demo" data-slide-to="2"></li>
+        </ul>
+
+        <!-- The slideshow -->
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="/images/friends.jpg" width="100%" alt="Los Angeles">
+          </div>
+          <div class="carousel-item">
+            <img src="/images/got.jpg" width="100%" alt="Chicago">
+          </div>
+          <div class="carousel-item">
+            <img src="/images/sherlock.jpg" width="100%" alt="New York">
+          </div>
+        </div>
+
+        <!-- Left and right controls -->
+        <a class="carousel-control-prev" href="#demo" data-slide="prev">
+          <span class="carousel-control-prev-icon"></span>
+        </a>
+        <a class="carousel-control-next" href="#demo" data-slide="next">
+          <span class="carousel-control-next-icon"></span>
+        </a>
+
+      </div>
+      <br>
+
+    </div>
+    <div class="col-sm-5">
+
+      <div class="container">
+      <div class="row">
+      <div class="col-12">
+
+        <div class="jumbotron bg-dark text-white">
+          <h2>Poll of the day</h2>
+          <hr>
+          <h4 id="qs">Who is your favourite wizard?</h4>
+          <div class="radio">
+              <label><input type="radio" name="optradio" value="w" id="op0"><span id="o0">&nbsp;Harry Potter</span></label>
+          </div>
+          <div class="radio">
+              <label><input type="radio" name="optradio" value="w" id="op1"><span id="o1">&nbsp;Albus Dumbledore</span></label>
+          </div>
+          <div class="radio">
+              <label><input type="radio" name="optradio" value="c" id="op2"><span id="o2">&nbsp;Lord Voldemort</span></label>
+          </div>
+          <div class="radio">
+              <label><input type="radio" name="optradio" value="w" id="op3"><span id="o3">&nbsp;Severus Snape</span></label>
+          </div>
+          <div class="alert alert-success" hidden="true" id="cAlert">
+              <strong>Correct!</strong>
+          </div>
+          <div class="alert alert-danger" hidden="true" id="wAlert">
+              <strong>Wrong!</strong>
+          </div>
+          <button type="button" class="btn btn-primary" id="omq">Vote</button>
+        </div>
+
+      </div>
+      </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<% include partials/footer %>

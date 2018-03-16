@@ -1,15 +1,26 @@
 <html>
   <head>
-    <title>fiction</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fyction</title>
     <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css"></link>
     <link rel="stylesheet" href="/css/style.css"></link>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
 
   </head>
   <body>
 
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <div id="background"></div>
+
+    <nav class="navbar navbar-fixed-top navbar-expand-sm bg-dark navbar-dark">
+      <div class="container-fluid">
       <!-- Brand -->
-      <a class="navbar-brand" href="/">Fiction.com</a>
+      <% if(user){ %>
+        <a class="navbar-brand" href="/">Fyction.com</a>
+      <% } else { %>
+        <a class="navbar-brand" href="/preLoginHome">Fyction.com</a>
+      <% } %>
 
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
         <span class="navbar-toggler-icon"></span>
@@ -17,12 +28,23 @@
 
       <div class="collapse navbar-collapse" id="collapsibleNavbar">
         <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" href="/">Home</a>
-          </li>
           <% if(user){ %>
             <li class="nav-item">
+              <a class="nav-link" href="/">Home</a>
+            </li>
+
+            <li class="nav-item">
               <a class="nav-link" href="/fanTheories/add">Add Fan Theory</a>
+            </li>
+
+            <li class="nav-item">
+              <% let link = '/users/profile/' + user._id %>
+              <a class="nav-link" href="<%=link%>">My Profile</a>
+            </li>
+
+          <% } else { %>
+            <li class="nav-item">
+              <a class="nav-link" href="/preLoginHome">Home</a>
             </li>
           <% } %>
         </ul>
@@ -40,14 +62,27 @@
             </li>
           <% } %>
         </ul>
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="/about">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/contact">Contact</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/sendFeedback">Send Feedback</a>
+          </li>
+        </ul>
       </div>
+    </div>
     </nav>
 
+
+
+    <div class="bg-secondary text-white">
     <div class="container">
 
-      <br>
-
-      <h1><%= pageDescription %></h1>
+      <!--<strong><h1 class="display-4"><%= pageDescription %></h1></strong>-->
       <br>
       <%- messages('message', locals) %>
 
@@ -58,5 +93,3 @@
           </div>
         <% }); %>
       <% } %>
-
-      <hr>
