@@ -32,16 +32,35 @@
 
       <div class="tab-pane active container" id="fanTheories">
         <ul class="list-group">
+          <% let flag = 1 %>
           <% fanTheories.forEach(function(fanTheory){ %>
             <% let link = "/fanTheories/details/" + fanTheory._id.toString() %>
             <li class="list-group-item"><!--<a href="<%=link%>">-->
               <h2><%= fanTheory.title %></h2>
               <hr>
-              <p><%= fanTheory.body %></p>
-              <p>Author - <%= fanTheory.author %></p>
+                <% let x = 'half half' + flag %>
+                <% let y = 'full full' + flag %>
+                <% flag++ %>
+                <div class="<%= x %>">
+                  <p><%= fanTheory.body.slice(0, 5) + '...' %> </p>
+                </div>
+                <div class="<%= y %>">
+                  <p><%= fanTheory.body %></p>
+                  <p>Author - <%= fanTheory.author %></p>
+                </div>
+                <button class="btn btn-primary readMoreBtn" data-id="<%= flag %>">Read more</button>
             <!--</a>--></li>
           <% }) %>
         </ul>
+        <br>
+        <ul class="pagination">
+          <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+          <li class="page-item active"><a class="page-link" href="/fanTheories/page/1">1</a></li>
+          <li class="page-item"><a class="page-link" href="/fanTheories/page/2">2</a></li>
+          <li class="page-item"><a class="page-link" href="/fanTheories/page/3">3</a></li>
+          <li class="page-item"><a class="page-link" href="#">Next</a></li>
+        </ul>
+
       </div>
 
       <div class="tab-pane container" id="fanFictions">Fan Fictions</div>

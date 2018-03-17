@@ -22,6 +22,38 @@ router.get('/add', ensureAuthenticated, function(req, res){
   });
 });
 
+router.get('/page/:page', function(req, res){
+  if(req.user){
+    FanTheories.find({}, function(err, FanTheories){
+      if(err){
+        console.log(err);
+      }
+      else{
+        //console.log(FanTheories);
+        let pageno = req.params.page;
+        FanTheories.reverse();
+        FanTheories.splice(0, (pageno - 1) * 5);
+        if(FanTheories.length > 5){
+          FanTheories.splice(5, FanTheories.length - 5);
+        }
+        
+        res.render('index', {
+          pageDescription: 'The Home route',
+          fanTheories: FanTheories,
+          errors:false,
+          page: pageno
+        });
+      }
+    });
+  }
+  else{
+    res.render('preLoginHome', {
+      pageDescription: 'The Nerd Home',
+      errors: false
+    });
+  }
+});
+
 router.post('/add', function(req, res){
 
   req.checkBody('title', 'Title is required').notEmpty();
@@ -60,7 +92,7 @@ router.post('/add', function(req, res){
 
 router.get('/edit/:id', ensureAuthenticated, function(req, res){
   FanTheories.findById(req.params.id, function(err, fanTheory){
-    
+
     res.render('editFanTheory', {
       pageDescription : 'The Edit Fan Theory page',
       fanTheory : fanTheory,

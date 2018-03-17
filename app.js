@@ -85,10 +85,19 @@ app.get('/', function(req, res){
       }
       else{
         //console.log(FanTheories);
+
+        let pageno = 1;
+        FanTheories.reverse();
+        FanTheories.splice(0, (pageno - 1) * 5);
+        if(FanTheories.length > 5){
+          FanTheories.splice(5, FanTheories.length - 5);
+        }
+
         res.render('index', {
           pageDescription: 'The Home route',
           fanTheories: FanTheories,
-          errors:false
+          errors:false,
+          page: 1
         });
       }
     });
