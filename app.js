@@ -85,7 +85,8 @@ app.get('/', function(req, res){
       }
       else{
         //console.log(FanTheories);
-
+        let totalPages = Math.floor(FanTheories.length / 5 + 1);
+        console.log('Total : ' + totalPages);
         let pageno = 1;
         FanTheories.reverse();
         FanTheories.splice(0, (pageno - 1) * 5);
@@ -97,7 +98,8 @@ app.get('/', function(req, res){
           pageDescription: 'The Home route',
           fanTheories: FanTheories,
           errors:false,
-          page: 1
+          page: 1,
+          totalPages: totalPages
         });
       }
     });

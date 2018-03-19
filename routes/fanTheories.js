@@ -30,18 +30,26 @@ router.get('/page/:page', function(req, res){
       }
       else{
         //console.log(FanTheories);
+        let totalPages;
+        if(FanTheories.length % 5 === 0)
+          totalPages = FanTheories.length / 5;
+        else
+          totalPages = Math.floor(FanTheories.length / 5 + 1);
+        console.log('Total : ' + totalPages);
+
         let pageno = req.params.page;
         FanTheories.reverse();
         FanTheories.splice(0, (pageno - 1) * 5);
         if(FanTheories.length > 5){
           FanTheories.splice(5, FanTheories.length - 5);
         }
-        
+
         res.render('index', {
           pageDescription: 'The Home route',
           fanTheories: FanTheories,
           errors:false,
-          page: pageno
+          page: pageno,
+          totalPages: totalPages
         });
       }
     });
@@ -72,6 +80,7 @@ router.post('/add', function(req, res){
     fanTheory.title = req.body.title;
     fanTheory.body = req.body.description;
     fanTheory.author = req.user.name;
+    fanTheory.category = req.body.category;
     fanTheory.noOfLikes = 0;
     fanTheory.date = '';
     fanTheory.time = '';

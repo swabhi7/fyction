@@ -1,6 +1,11 @@
 $(document).ready(function(){
 
   $('.full').hide();
+  $('#filterOptions').hide();
+
+  $('#filter').on('click', function(e){
+    $('#filterOptions').toggle();
+  });
 
   $('.deleteFanTheory').on('click', function(e){
     $target = $(e.target);

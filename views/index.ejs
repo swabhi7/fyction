@@ -31,12 +31,99 @@
     <div class="tab-content">
 
       <div class="tab-pane active container" id="fanTheories">
+
+        <!---->
+
+
+        <!---->
+
+        <button class="btn btn-primary" id="filter">Filter by category</button>
+        <br>
+        <div id="filterOptions">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input type="checkbox" class="form-check-input" value="Game of thrones">Game of thrones
+          </label>
+        </div>
+        <div class="form-check">
+          <label class="form-check-label">
+            <input type="checkbox" class="form-check-input" value="Harry Potter">Harry Potter
+          </label>
+        </div>
+        <div class="form-check disabled">
+          <label class="form-check-label">
+            <input type="checkbox" class="form-check-input" value="Marvel">Marvel
+          </label>
+        </div>
+        <div class="form-check disabled">
+          <label class="form-check-label">
+            <input type="checkbox" class="form-check-input" value="DC">DC
+          </label>
+        </div>
+        <div class="form-check disabled">
+          <label class="form-check-label">
+            <input type="checkbox" class="form-check-input" value="F.R.I.E.N.D.S.">F.R.I.E.N.D.S.
+          </label>
+        </div>
+        <div class="form-check disabled">
+          <label class="form-check-label">
+            <input type="checkbox" class="form-check-input" value="How I met your mother">How I met your mother
+          </label>
+        </div>
+        <div class="form-check disabled">
+          <label class="form-check-label">
+            <input type="checkbox" class="form-check-input" value="The Big Bang Theory">The Big Bang Theory
+          </label>
+        </div>
+        <div class="form-check disabled">
+          <label class="form-check-label">
+            <input type="checkbox" class="form-check-input" value="Lord of the rings" >Lord of the rings
+          </label>
+        </div>
+        <div class="form-check disabled">
+          <label class="form-check-label">
+            <input type="checkbox" class="form-check-input" value="Narnia" >Narnia
+          </label>
+        </div>
+        <div class="form-check disabled">
+          <label class="form-check-label">
+            <input type="checkbox" class="form-check-input" value="Star Wars" >Star Wars
+          </label>
+        </div>
+        <div class="form-check disabled">
+          <label class="form-check-label">
+            <input type="checkbox" class="form-check-input" value="Star Trek" >Star Trek
+          </label>
+        </div>
+        <div class="form-check disabled">
+          <label class="form-check-label">
+            <input type="checkbox" class="form-check-input" value="James Bond" >James Bond
+          </label>
+        </div>
+        <div class="form-check disabled">
+          <label class="form-check-label">
+            <input type="checkbox" class="form-check-input" value="Sherlock Holmes" >Sherlock Holmes
+          </label>
+        </div>
+        <div class="form-check disabled">
+          <label class="form-check-label">
+            <input type="checkbox" class="form-check-input" value="Other" >Other
+          </label>
+        </div>
+
+        <button class="btn btn-primary">Filter</button>
+
+      </div>
+
+
+
         <ul class="list-group">
           <% let flag = 1 %>
           <% fanTheories.forEach(function(fanTheory){ %>
             <% let link = "/fanTheories/details/" + fanTheory._id.toString() %>
             <li class="list-group-item"><!--<a href="<%=link%>">-->
-              <h2><%= fanTheory.title %></h2>
+              <h1><%= fanTheory.title %></h1>
+              <h5>Category : <%=fanTheory.category%></h5>
               <hr>
                 <% let x = 'half half' + flag %>
                 <% let y = 'full full' + flag %>
@@ -54,11 +141,42 @@
         </ul>
         <br>
         <ul class="pagination">
-          <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-          <li class="page-item active"><a class="page-link" href="/fanTheories/page/1">1</a></li>
-          <li class="page-item"><a class="page-link" href="/fanTheories/page/2">2</a></li>
-          <li class="page-item"><a class="page-link" href="/fanTheories/page/3">3</a></li>
-          <li class="page-item"><a class="page-link" href="#">Next</a></li>
+          <% let cls, link; %>
+          <% if(page == 1){ %>
+            <% cls = "page-item disabled"; %>
+            <% link = "#"; %>
+          <% } else { %>
+            <% cls = "page-item"; %>
+            <% link = "/fanTheories/page/" + (Number(page) - 1); %>
+          <% } %>
+          <li class="<%=cls%>"><a class="page-link" href="<%=link%>">Previous</a></li>
+
+          <% for(let i = 1; i <= totalPages; i++){ %>
+            <% console.log("i" + i); %>
+            <% console.log("page" + page); %>
+            <% if(i == page){ %>
+              <% console.log("hi"); %>
+              <%cls = "page-item active";%>
+              <% console.log("hii"); %>
+            <% } else { %>
+              <% console.log("not equal"); %>
+              <%cls = "page-item";%>
+            <% } %>
+            <% link = "/fanTheories/page/" + i; %>
+            <li class="<%=cls%>"><a class="page-link" href="<%=link%>"><%=i%></a></li>
+          <% } %>
+
+          <% if(page == totalPages){ %>
+            <% cls = "page-item disabled"; %>
+            <% link = "#"; %>
+          <% } else { %>
+            <% cls = "page-item"; %>
+            <% link = "/fanTheories/page/" + (Number(page) + 1); %>
+          <% } %>
+
+          <li class="<%=cls%>"><a class="page-link" href="<%=link%>">Next</a></li>
+
+
         </ul>
 
       </div>

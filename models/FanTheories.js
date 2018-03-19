@@ -28,6 +28,10 @@ let FanTheoriesScheme = mongoose.Schema({
   comments: {
     required: false,
     type: Array
+  },
+  category: {
+    required: false,
+    type: String
   }
 });
 
