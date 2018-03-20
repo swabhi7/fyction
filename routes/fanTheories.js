@@ -22,6 +22,44 @@ router.get('/add', ensureAuthenticated, function(req, res){
   });
 });
 
+router.post('/addComment/:id', function(req, res){
+  let fanTheory = {};
+  fanTheory.comments = [];
+
+  FanTheories.find({_id:req.params.id}, function(err, ft){
+    if(err){
+      console.log(err);
+    }
+    else{
+      console.log('this is it1-'+ft[0].comments);
+      fanTheory.comments = ft[0].comments;
+      console.log('this is it2-'+fanTheory.comments);
+      console.log('this is it3-'+fanTheory.comments);
+      console.log('user'+req.user.name);
+      fanTheory.comments.push({msg:req.body.comment, usr:req.user.name});
+      console.log('user'+req.user.name);
+      console.log('this is it4-'+fanTheory.comments);
+
+      let query = {_id:req.params.id};
+
+      FanTheories.update(query, fanTheory, function(err){
+        if(err){
+          console.log(err);
+        }
+        else{
+          req.flash('success', 'Comment posted!');
+          res.redirect('/');
+        }
+      });
+
+
+    }
+  });
+
+
+
+});
+
 router.get('/page/:page', function(req, res){
   if(req.user){
     FanTheories.find({}, function(err, FanTheories){
@@ -60,6 +98,40 @@ router.get('/page/:page', function(req, res){
       errors: false
     });
   }
+});
+
+router.post('/filtered', function(req, res){
+  console.log(req.body.filterCheckbox);
+  res.send('filter page');
+  /*FanTheories.find({category : { $in : req.body.filterCheckbox}}, function(err, fts){
+    if(err){
+      console.log(err);
+    }
+    else{
+      let totalPages;
+      if(fts.length % 5 === 0)
+        totalPages = fts.length / 5;
+      else
+        totalPages = Math.floor(fts.length / 5 + 1);
+      console.log('Total : ' + totalPages);
+
+      let pageno = 1;
+      fts.reverse();
+      fts.splice(0, (pageno - 1) * 5);
+      if(fts.length > 5){
+        fts.splice(5, fts.length - 5);
+      }
+
+      res.render('index', {
+        pageDescription: 'The Home route',
+        fanTheories: fts,
+        errors:false,
+        page: 1,
+        totalPages: 1
+      });
+    }
+  });
+  //res.send('meh');*/
 });
 
 router.post('/add', function(req, res){

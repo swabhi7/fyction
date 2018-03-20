@@ -39,80 +39,82 @@
 
         <button class="btn btn-primary" id="filter">Filter by category</button>
         <br>
+
         <div id="filterOptions">
-        <div class="form-check">
-          <label class="form-check-label">
-            <input type="checkbox" class="form-check-input" value="Game of thrones">Game of thrones
-          </label>
-        </div>
-        <div class="form-check">
-          <label class="form-check-label">
-            <input type="checkbox" class="form-check-input" value="Harry Potter">Harry Potter
-          </label>
-        </div>
-        <div class="form-check disabled">
-          <label class="form-check-label">
-            <input type="checkbox" class="form-check-input" value="Marvel">Marvel
-          </label>
-        </div>
-        <div class="form-check disabled">
-          <label class="form-check-label">
-            <input type="checkbox" class="form-check-input" value="DC">DC
-          </label>
-        </div>
-        <div class="form-check disabled">
-          <label class="form-check-label">
-            <input type="checkbox" class="form-check-input" value="F.R.I.E.N.D.S.">F.R.I.E.N.D.S.
-          </label>
-        </div>
-        <div class="form-check disabled">
-          <label class="form-check-label">
-            <input type="checkbox" class="form-check-input" value="How I met your mother">How I met your mother
-          </label>
-        </div>
-        <div class="form-check disabled">
-          <label class="form-check-label">
-            <input type="checkbox" class="form-check-input" value="The Big Bang Theory">The Big Bang Theory
-          </label>
-        </div>
-        <div class="form-check disabled">
-          <label class="form-check-label">
-            <input type="checkbox" class="form-check-input" value="Lord of the rings" >Lord of the rings
-          </label>
-        </div>
-        <div class="form-check disabled">
-          <label class="form-check-label">
-            <input type="checkbox" class="form-check-input" value="Narnia" >Narnia
-          </label>
-        </div>
-        <div class="form-check disabled">
-          <label class="form-check-label">
-            <input type="checkbox" class="form-check-input" value="Star Wars" >Star Wars
-          </label>
-        </div>
-        <div class="form-check disabled">
-          <label class="form-check-label">
-            <input type="checkbox" class="form-check-input" value="Star Trek" >Star Trek
-          </label>
-        </div>
-        <div class="form-check disabled">
-          <label class="form-check-label">
-            <input type="checkbox" class="form-check-input" value="James Bond" >James Bond
-          </label>
-        </div>
-        <div class="form-check disabled">
-          <label class="form-check-label">
-            <input type="checkbox" class="form-check-input" value="Sherlock Holmes" >Sherlock Holmes
-          </label>
-        </div>
-        <div class="form-check disabled">
-          <label class="form-check-label">
-            <input type="checkbox" class="form-check-input" value="Other" >Other
-          </label>
-        </div>
+        <form method= 'POST' action= '/fanTheories/filtered'>
+          <div class="form-check">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" value="Game of thrones" name="filterCheckbox">Game of thrones
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" value="Harry Potter" name="filterCheckbox">Harry Potter
+            </label>
+          </div>
+          <div class="form-check disabled">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" value="Marvel" name="filterCheckbox">Marvel
+            </label>
+          </div>
+          <div class="form-check disabled">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" value="DC" name="filterCheckbox">DC
+            </label>
+          </div>
+          <div class="form-check disabled">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" value="F.R.I.E.N.D.S." name="filterCheckbox">F.R.I.E.N.D.S.
+            </label>
+          </div>
+          <div class="form-check disabled">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" value="How I met your mother" name="filterCheckbox">How I met your mother
+            </label>
+          </div>
+          <div class="form-check disabled">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" value="The Big Bang Theory" name="filterCheckbox">The Big Bang Theory
+            </label>
+          </div>
+          <div class="form-check disabled">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" value="Lord of the rings" name="filterCheckbox">Lord of the rings
+            </label>
+          </div>
+          <div class="form-check disabled">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" value="Narnia" name="filterCheckbox" >Narnia
+            </label>
+          </div>
+          <div class="form-check disabled">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" value="Star Wars" name="filterCheckbox" >Star Wars
+            </label>
+          </div>
+          <div class="form-check disabled">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" value="Star Trek" name="filterCheckbox" >Star Trek
+            </label>
+          </div>
+          <div class="form-check disabled">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" value="James Bond" name="filterCheckbox" >James Bond
+            </label>
+          </div>
+          <div class="form-check disabled">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" value="Sherlock Holmes" name="filterCheckbox" >Sherlock Holmes
+            </label>
+          </div>
+          <div class="form-check disabled">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" value="Other" name="filterCheckbox" >Other
+            </label>
+          </div>
 
-        <button class="btn btn-primary">Filter</button>
-
+          <input class="btn btn-primary" type="submit" value="Apply">
+        </form>
       </div>
 
 
@@ -134,7 +136,27 @@
                 <div class="<%= y %>">
                   <p><%= fanTheory.body %></p>
                   <p>Author - <%= fanTheory.author %></p>
+                  <hr>
+                  <h3>Comments</h3>
+                  <br>
+                  <% let acn = "/fanTheories/addComment/" + fanTheory._id; %>
+                  <% console.log(acn); %>
+                  <form method= 'POST' action= '<%=acn%>'>
+                    <div id="form-group">
+                      <textarea class="form-control" name="comment" placeholder="Type your comment.."></textarea>
+                    </div>
+                    <br>
+                    <input class="btn btn-primary" type="submit" value="Post">
+                  </form>
+
+                  <br>
+                  <ul class="list-group">
+                    <% fanTheory.comments.forEach(function(comment){ %>
+                      <li class="list-group-item"><%=comment.usr%> - <%=comment.msg%></li>
+                    <% }); %>
+                  </ul>
                 </div>
+                <br>
                 <button class="btn btn-primary readMoreBtn" data-id="<%= flag %>">Read more</button>
             <!--</a>--></li>
           <% }) %>
