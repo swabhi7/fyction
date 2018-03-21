@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const url = require('url');
+var querystring = require('querystring');
 
 let FanTheories = require('../models/FanTheories');
 let Users = require('../models/Users');
@@ -101,8 +103,68 @@ router.get('/page/:page', function(req, res){
 });
 
 router.post('/filtered', function(req, res){
-  console.log(req.body.filterCheckbox);
-  res.send('filter page');
+  //console.log(req.body.filterCheckbox);
+  //res.send('filter page');
+  if(req.user){
+    let fts1 = [];
+
+    FanTheories.find({}, function(err, fts){
+
+      if(err){
+
+        console.log(err);
+      }
+      else{
+        //let fts1 = [];
+        fts.forEach(function(ft){
+
+          req.body.filterCheckbox.forEach(function(filter){
+            if(ft.category == filter){
+              console.log(ft.category);
+              fts1.push(ft);
+            }
+            else{
+              //
+            }
+          });
+        });
+
+        console.log('After splicing - ');
+        console.log(fts1);
+        console.log('User - ' + req.user.name);
+        /*res.render('index', {
+          pageDescription: 'The Home route',
+          fanTheories: fts,
+          errors:false,
+          page: 1,
+          totalPages: 1
+        });*/
+
+        //res.redirect('/');
+        res.redirect(url.format({
+         pathname:"/",
+         query: {
+            "a": 1,
+            "b": 2,
+            "valid":"your string here",
+            "x": JSON.stringify(fts1)
+          }
+       }));
+
+
+      }
+    });
+  }
+  else{
+    res.render('preLoginHome', {
+      pageDescription: 'The Nerd Home',
+      errors: false
+    });
+  }
+
+
+
+
   /*FanTheories.find({category : { $in : req.body.filterCheckbox}}, function(err, fts){
     if(err){
       console.log(err);

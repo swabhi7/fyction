@@ -36,13 +36,7 @@ app.use(bodyParser.urlencoded({encoded:false}));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-// express-session middleware
-app.set('trust proxy', 1); // trust first proxy
-app.use(session({
-  secret: 'keyboard cat',
-  resave: true,
-  saveUninitialized: true
-}));
+
 
 // express-messages middleware
 app.use(require('connect-flash')());
@@ -67,12 +61,19 @@ app.use(expressValidator({
 }));
 
 require('./config/passport')(passport);
-
+// express-session middleware
+app.set('trust proxy', 1); // trust first proxy
+app.use(session({
+  secret: 'keyboard cat',
+  resave: true,
+  saveUninitialized: true
+}));
 // Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.get('*', function(req, res, next){
+  console.log('url - '+req.url);
   res.locals.user = req.user || null;
   next();
 });
@@ -93,14 +94,31 @@ app.get('/', function(req, res){
         if(FanTheories.length > 5){
           FanTheories.splice(5, FanTheories.length - 5);
         }
+        console.log(req.query.valid);
+        //console.log(req.query.x[0].title);
+        console.log(req.query.x);
+        //console.log(req.query.x);
+        if(req.query.x){
+          let fts = JSON.parse(req.query.x);
+          console.log(fts);
+          res.render('index', {
+            pageDescription: 'The Home route',
+            fanTheories: fts,
+            errors:false,
+            page: 1,
+            totalPages: totalPages
+          });
+        }
+        else{
+          res.render('index', {
+            pageDescription: 'The Home route',
+            fanTheories: FanTheories,
+            errors:false,
+            page: 1,
+            totalPages: totalPages
+          });
+        }
 
-        res.render('index', {
-          pageDescription: 'The Home route',
-          fanTheories: FanTheories,
-          errors:false,
-          page: 1,
-          totalPages: totalPages
-        });
       }
     });
   }
