@@ -32,6 +32,14 @@ let FanTheoriesScheme = mongoose.Schema({
   category: {
     required: false,
     type: String
+  },
+  dateandtime: {
+    required: false,
+    type: Date
+  },
+  likedBy: {
+    required: false,
+    type: Array
   }
 });
 

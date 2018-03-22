@@ -87,26 +87,51 @@ app.get('/', function(req, res){
       else{
         //console.log(FanTheories);
         let totalPages = Math.floor(FanTheories.length / 5 + 1);
-        console.log('Total : ' + totalPages);
+        //console.log('Total : ' + totalPages);
         let pageno = 1;
-        FanTheories.reverse();
+        //FanTheories.reverse();
+        /*FanTheories.sort(function(a, b){
+          var keyA = new Date(a.dateandtime),
+              keyB = new Date(b.dateandtime);
+          // Compare the 2 dates
+          if(keyA < keyB) return 1;
+          if(keyA > keyB) return -1;
+          return 0;
+      });*/
+        FanTheories.sort(function(a,b){
+        // Turn your strings into dates, and then subtract them
+        // to get a value that is either negative, positive, or zero.
+        return new Date(b.dateandtime) - new Date(a.dateandtime);
+        });
         FanTheories.splice(0, (pageno - 1) * 5);
         if(FanTheories.length > 5){
           FanTheories.splice(5, FanTheories.length - 5);
         }
-        console.log(req.query.valid);
+        //console.log(req.query.valid);
         //console.log(req.query.x[0].title);
-        console.log(req.query.x);
+        //console.log(req.query.x);
         //console.log(req.query.x);
         if(req.query.x){
           let fts = JSON.parse(req.query.x);
-          console.log(fts);
+          //console.log(fts);
+          let tp = Math.floor(fts.length / 5 + 1);
+          let pn = req.query.page;
+          //fts.reverse();
+          fts.sort(function(a,b){
+          // Turn your strings into dates, and then subtract them
+          // to get a value that is either negative, positive, or zero.
+          return new Date(b.dateandtime) - new Date(a.dateandtime);
+          });
+          //fts.splice(0, (pn - 5) * 5);
+          if(fts.length > 5){
+            //fts.splice(5, fts.length - 5);
+          }
           res.render('index', {
-            pageDescription: 'The Home route',
+            pageDescription: 'filtered',
             fanTheories: fts,
             errors:false,
-            page: 1,
-            totalPages: totalPages
+            page: pn,
+            totalPages: tp
           });
         }
         else{

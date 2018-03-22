@@ -78,7 +78,12 @@ router.get('/page/:page', function(req, res){
         console.log('Total : ' + totalPages);
 
         let pageno = req.params.page;
-        FanTheories.reverse();
+        //FanTheories.reverse();
+        FanTheories.sort(function(a,b){
+        // Turn your strings into dates, and then subtract them
+        // to get a value that is either negative, positive, or zero.
+        return new Date(b.dateandtime) - new Date(a.dateandtime);
+        });
         FanTheories.splice(0, (pageno - 1) * 5);
         if(FanTheories.length > 5){
           FanTheories.splice(5, FanTheories.length - 5);
@@ -102,6 +107,10 @@ router.get('/page/:page', function(req, res){
   }
 });
 
+router.get('/filtered/:page', function(req, res){
+
+});
+
 router.post('/filtered', function(req, res){
   //console.log(req.body.filterCheckbox);
   //res.send('filter page');
@@ -117,16 +126,19 @@ router.post('/filtered', function(req, res){
       else{
         //let fts1 = [];
         fts.forEach(function(ft){
-
-          req.body.filterCheckbox.forEach(function(filter){
-            if(ft.category == filter){
-              console.log(ft.category);
+          if(req.body.filterCheckbox instanceof Array){
+            req.body.filterCheckbox.forEach(function(filter){
+              if(ft.category == filter){
+                console.log(ft.category);
+                fts1.push(ft);
+              }
+            });
+          }
+          else{
+            if(ft.category == req.body.filterCheckbox){
               fts1.push(ft);
             }
-            else{
-              //
-            }
-          });
+          }
         });
 
         console.log('After splicing - ');
@@ -144,7 +156,7 @@ router.post('/filtered', function(req, res){
         res.redirect(url.format({
          pathname:"/",
          query: {
-            "a": 1,
+            "page": 1,
             "b": 2,
             "valid":"your string here",
             "x": JSON.stringify(fts1)
@@ -196,6 +208,54 @@ router.post('/filtered', function(req, res){
   //res.send('meh');*/
 });
 
+router.get('/addLike/:id', function(req, res){
+  let ft = {};
+  ft.likedBy = [];
+
+  FanTheories.findById(req.params.id, function(err, fanTheory){
+    ft.likedBy = fanTheory.likedBy;
+    ft.likedBy.push(req.user.email);
+
+    let query = {_id:req.params.id};
+
+    FanTheories.update(query, ft, function(err){
+      if(err){
+        console.log(err);
+      }
+      else{
+        req.flash('success', 'Fan Theory liked!');
+        res.redirect('/');
+      }
+    });
+
+  });
+
+});
+
+router.get('/removeLike/:id', function(req, res){
+  let ft = {};
+  ft.likedBy = [];
+
+  FanTheories.findById(req.params.id, function(err, fanTheory){
+    ft.likedBy = fanTheory.likedBy;
+    ft.likedBy.pop(ft.indexOf(req.user.email));
+
+    let query = {_id:req.params.id};
+
+    FanTheories.update(query, ft, function(err){
+      if(err){
+        console.log(err);
+      }
+      else{
+        req.flash('success', 'Fan Theory unliked!');
+        res.redirect('/');
+      }
+    });
+
+  });
+
+});
+
 router.post('/add', function(req, res){
 
   req.checkBody('title', 'Title is required').notEmpty();
@@ -219,6 +279,7 @@ router.post('/add', function(req, res){
     fanTheory.date = '';
     fanTheory.time = '';
     fanTheory.comments = [];
+    fanTheory.dateandtime = Date();
 
     fanTheory.save(function(err){
       if(err){
