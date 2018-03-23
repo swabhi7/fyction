@@ -3,49 +3,39 @@ const router = express.Router();
 const url = require('url');
 var querystring = require('querystring');
 
-let FanTheories = require('../models/FanTheories');
 let FanFictions = require('../models/FanFictions');
+let FanTheories = require('../models/FanTheories');
 let Users = require('../models/Users');
 
-router.get('/details/:id', function(req, res){
-  FanTheories.findById(req.params.id, function(err, fanTheory){
-    res.render('fanTheoryDetails', {
-      pageDescription : 'The Fan Theory Details page',
-      fanTheory : fanTheory,
-      errors:false
-    });
-    //console.log(fanTheory);
-  });
-});
 
 router.get('/add', ensureAuthenticated, function(req, res){
-  res.render('addFanTheory', {
-    pageDescription: 'The addFanTheory page',
+  res.render('addFanFiction', {
+    pageDescription: 'The addFanFiction page',
     errors:false
   });
 });
 
 router.post('/addComment/:id', function(req, res){
-  let fanTheory = {};
-  fanTheory.comments = [];
+  let fanFiction = {};
+  fanFiction.comments = [];
 
-  FanTheories.find({_id:req.params.id}, function(err, ft){
+  FanFictions.find({_id:req.params.id}, function(err, ft){
     if(err){
       console.log(err);
     }
     else{
       console.log('this is it1-'+ft[0].comments);
-      fanTheory.comments = ft[0].comments;
-      console.log('this is it2-'+fanTheory.comments);
-      console.log('this is it3-'+fanTheory.comments);
+      fanFiction.comments = ft[0].comments;
+      console.log('this is it2-'+fanFiction.comments);
+      console.log('this is it3-'+fanFiction.comments);
       console.log('user'+req.user.name);
-      fanTheory.comments.push({msg:req.body.comment, usr:req.user.name});
+      fanFiction.comments.push({msg:req.body.comment, usr:req.user.name});
       console.log('user'+req.user.name);
-      console.log('this is it4-'+fanTheory.comments);
+      console.log('this is it4-'+fanFiction.comments);
 
       let query = {_id:req.params.id};
 
-      FanTheories.update(query, fanTheory, function(err){
+      FanFictions.update(query, fanFiction, function(err){
         if(err){
           console.log(err);
         }
@@ -65,68 +55,62 @@ router.post('/addComment/:id', function(req, res){
 
 router.get('/page/:page', function(req, res){
   if(req.user){
-    FanTheories.find({}, function(err, FanTheories){
+    FanFictions.find({}, function(err, FanFictions){
       if(err){
         console.log(err);
       }
       else{
         //console.log(FanTheories);
         let totalPages;
-        if(FanTheories.length % 5 === 0)
-          totalPages = FanTheories.length / 5;
+        if(FanFictions.length % 5 === 0)
+          totalPages = FanFictions.length / 5;
         else
-          totalPages = Math.floor(FanTheories.length / 5 + 1);
+          totalPages = Math.floor(FanFictions.length / 5 + 1);
         console.log('Total : ' + totalPages);
 
         let pageno = req.params.page;
         //FanTheories.reverse();
-        FanTheories.sort(function(a,b){
+        FanFictions.sort(function(a,b){
         // Turn your strings into dates, and then subtract them
         // to get a value that is either negative, positive, or zero.
         return new Date(b.dateandtime) - new Date(a.dateandtime);
         });
-        FanTheories.splice(0, (pageno - 1) * 5);
-        if(FanTheories.length > 5){
-          FanTheories.splice(5, FanTheories.length - 5);
+        FanFictions.splice(0, (pageno - 1) * 5);
+        if(FanFictions.length > 5){
+          FanFictions.splice(5, FanFictions.length - 5);
         }
-        console.log('here1');
+
         let fts;
-        FanFictions.find({}, function(err, fanfictions){
-          console.log('here2');
+        FanTheories.find({}, function(err, fantheories){
           if(err){
             console.log(err);
           }
           else{
-            console.log('here3');
-            fts = fanfictions;
-            console.log('here4');
+            fts = fantheories;
             fts.sort(function(a,b){
             // Turn your strings into dates, and then subtract them
             // to get a value that is either negative, positive, or zero.
             return new Date(b.dateandtime) - new Date(a.dateandtime);
             });
-            console.log('here5');
+
             let tp1;
             if(fts.length % 5 === 0)
               tp1 = fts.length / 5;
             else
               tp1 = Math.floor(fts.length / 5 + 1);
 
-              res.render('index', {
-                pageDescription: 'The Home route',
-                fanTheories: FanTheories,
-                errors:false,
-                page: pageno,
-                totalPages: totalPages,
-                fanFictions: fts,
-                page1: 1,
-                totalPages1: tp1
-              });
+            res.render('index', {
+              pageDescription: 'The Home route',
+              fanFictions: FanFictions,
+              fanTheories: fts,
+              errors:false,
+              page: 1,
+              totalPages: tp1,
+              page1: pageno,
+              totalPages1: totalPages
+            });
           }
         });
-
-
-
 
 
       }
@@ -141,14 +125,13 @@ router.get('/page/:page', function(req, res){
 });
 
 
-
 router.post('/filtered', function(req, res){
   //console.log(req.body.filterCheckbox);
   //res.send('filter page');
   if(req.user){
     let fts1 = [];
 
-    FanTheories.find({}, function(err, fts){
+    FanFictions.find({}, function(err, fts){
 
       if(err){
 
@@ -172,9 +155,7 @@ router.post('/filtered', function(req, res){
           }
         });
 
-        console.log('After splicing - ');
-        console.log(fts1);
-        console.log('User - ' + req.user.name);
+
         /*res.render('index', {
           pageDescription: 'The Home route',
           fanTheories: fts,
@@ -189,7 +170,7 @@ router.post('/filtered', function(req, res){
          query: {
             "page": 1,
             "b": 2,
-            "valid":"your string here",
+            "valid":"fiction",
             "x": JSON.stringify(fts1)
           }
        }));
@@ -243,18 +224,18 @@ router.get('/addLike/:id', function(req, res){
   let ft = {};
   ft.likedBy = [];
 
-  FanTheories.findById(req.params.id, function(err, fanTheory){
+  FanFictions.findById(req.params.id, function(err, fanTheory){
     ft.likedBy = fanTheory.likedBy;
     ft.likedBy.push(req.user.email);
 
     let query = {_id:req.params.id};
 
-    FanTheories.update(query, ft, function(err){
+    FanFictions.update(query, ft, function(err){
       if(err){
         console.log(err);
       }
       else{
-        req.flash('success', 'Fan Theory liked!');
+        req.flash('success', 'Fan Fiction liked!');
         res.redirect('/');
       }
     });
@@ -263,45 +244,22 @@ router.get('/addLike/:id', function(req, res){
 
 });
 
-router.get('/removeLike/:id', function(req, res){
-  let ft = {};
-  ft.likedBy = [];
-
-  FanTheories.findById(req.params.id, function(err, fanTheory){
-    ft.likedBy = fanTheory.likedBy;
-    ft.likedBy.pop(ft.indexOf(req.user.email));
-
-    let query = {_id:req.params.id};
-
-    FanTheories.update(query, ft, function(err){
-      if(err){
-        console.log(err);
-      }
-      else{
-        req.flash('success', 'Fan Theory unliked!');
-        res.redirect('/');
-      }
-    });
-
-  });
-
-});
 
 router.post('/add', function(req, res){
 
   req.checkBody('title', 'Title is required').notEmpty();
-  req.checkBody('description', 'Description is required').notEmpty();
+  req.checkBody('description', 'Fiction is required').notEmpty();
 
   let errors = req.validationErrors();
 
   if(errors){
-    res.render('addFanTheory', {
-      pageDescription: 'The addFanTheory page',
+    res.render('addFanFiction', {
+      pageDescription: 'The addFanFiction page',
       errors: errors
     });
   }
   else{
-    let fanTheory = new FanTheories();
+    let fanTheory = new FanFictions();
     fanTheory.title = req.body.title;
     fanTheory.body = req.body.description;
     fanTheory.author = req.user.name;
@@ -317,7 +275,7 @@ router.post('/add', function(req, res){
         console.log(err);
       }
       else{
-        req.flash('success', 'Fan Theory added!');
+        req.flash('success', 'Fan Fiction added!');
         res.redirect('/');
       }
     });
@@ -326,11 +284,11 @@ router.post('/add', function(req, res){
 });
 
 router.get('/edit/:id', ensureAuthenticated, function(req, res){
-  FanTheories.findById(req.params.id, function(err, fanTheory){
+  FanFictions.findById(req.params.id, function(err, fanTheory){
 
-    res.render('editFanTheory', {
-      pageDescription : 'The Edit Fan Theory page',
-      fanTheory : fanTheory,
+    res.render('editFanFiction', {
+      pageDescription : 'The Edit Fan Fiction page',
+      fanFiction : fanTheory,
       errors:false
     });
   });
@@ -343,12 +301,12 @@ router.post('/edit/:id', function(req, res){
 
   let query = {_id:req.params.id};
 
-  FanTheories.update(query, fanTheory, function(err){
+  FanFictions.update(query, fanTheory, function(err){
     if(err){
       console.log(err);
     }
     else{
-      req.flash('success', 'Fan Theory updated!');
+      req.flash('success', 'Fan Fiction updated!');
       res.redirect('/');
     }
   });
@@ -357,7 +315,7 @@ router.post('/edit/:id', function(req, res){
 router.delete('/delete/:id', function(req, res){
   let query = {_id:req.params.id};
 
-  FanTheories.remove(query, function(err){
+  FanFictions.remove(query, function(err){
     if(err){
       console.log(err);
     }

@@ -22,6 +22,7 @@ db.on('error', function(err){
 const app = express();
 
 let FanTheories = require('./models/FanTheories');
+let FanFictions = require('./models/FanFictions');
 
 //app.set('views', path.join(__dirname, 'views'));
 //app.set('view engine', 'pug');
@@ -80,72 +81,108 @@ app.get('*', function(req, res, next){
 
 app.get('/', function(req, res){
   if(req.user){
-    FanTheories.find({}, function(err, FanTheories){
+    FanTheories.find({}, function(err, FanTheories1){
       if(err){
         console.log(err);
       }
       else{
-        //console.log(FanTheories);
-        let totalPages = Math.floor(FanTheories.length / 5 + 1);
-        //console.log('Total : ' + totalPages);
+        let totalPages = Math.floor(FanTheories1.length / 5 + 1);
         let pageno = 1;
-        //FanTheories.reverse();
-        /*FanTheories.sort(function(a, b){
-          var keyA = new Date(a.dateandtime),
-              keyB = new Date(b.dateandtime);
-          // Compare the 2 dates
-          if(keyA < keyB) return 1;
-          if(keyA > keyB) return -1;
-          return 0;
-      });*/
-        FanTheories.sort(function(a,b){
-        // Turn your strings into dates, and then subtract them
-        // to get a value that is either negative, positive, or zero.
-        return new Date(b.dateandtime) - new Date(a.dateandtime);
-        });
-        FanTheories.splice(0, (pageno - 1) * 5);
-        if(FanTheories.length > 5){
-          FanTheories.splice(5, FanTheories.length - 5);
-        }
-        //console.log(req.query.valid);
-        //console.log(req.query.x[0].title);
-        //console.log(req.query.x);
-        //console.log(req.query.x);
-        if(req.query.x){
-          let fts = JSON.parse(req.query.x);
-          //console.log(fts);
-          let tp = Math.floor(fts.length / 5 + 1);
-          let pn = req.query.page;
-          //fts.reverse();
-          fts.sort(function(a,b){
-          // Turn your strings into dates, and then subtract them
-          // to get a value that is either negative, positive, or zero.
+
+        FanTheories1.sort(function(a,b){
           return new Date(b.dateandtime) - new Date(a.dateandtime);
-          });
-          //fts.splice(0, (pn - 5) * 5);
-          if(fts.length > 5){
-            //fts.splice(5, fts.length - 5);
+        });
+
+        FanTheories1.splice(0, (pageno - 1) * 5);
+        if(FanTheories1.length > 5){
+          FanTheories1.splice(5, FanTheories1.length - 5);
+        }
+        let ff, totalPages1;
+        FanFictions.find({}, function(err, FanTheories){
+          if(err){
+            console.log(err);
           }
-          res.render('index', {
-            pageDescription: 'filtered',
-            fanTheories: fts,
-            errors:false,
-            page: pn,
-            totalPages: tp
-          });
-        }
-        else{
-          res.render('index', {
-            pageDescription: 'The Home route',
-            fanTheories: FanTheories,
-            errors:false,
-            page: 1,
-            totalPages: totalPages
-          });
-        }
+          else{
+            totalPages1 = Math.floor(FanTheories.length / 5 + 1);
+            let pageno1 = 1;
+
+            FanTheories.sort(function(a,b){
+              return new Date(b.dateandtime) - new Date(a.dateandtime);
+            });
+
+            FanTheories.splice(0, (pageno1 - 1) * 5);
+            if(FanTheories.length > 5){
+              FanTheories.splice(5, FanTheories.length - 5);
+            }
+
+            ff = FanTheories;
+
+
+            if(req.query.x){
+              let fts = JSON.parse(req.query.x);
+              let tp = Math.floor(fts.length / 5 + 1);
+              let pn = req.query.page;
+              fts.sort(function(a,b){
+                return new Date(b.dateandtime) - new Date(a.dateandtime);
+              });
+
+              if(req.query.valid == 'fiction'){
+                res.render('index', {
+                  pageDescription: 'filteredff',
+                  fanFictions: fts,
+                  fanTheories: FanTheories1,
+                  errors:false,
+                  page: 1,
+                  totalPages: totalPages,
+                  page1: 1,
+                  totalPages1: 1
+                });
+              }
+              else{
+
+                res.render('index', {
+                  pageDescription: 'filteredft',
+                  fanFictions: ff,
+                  fanTheories: fts,
+                  errors:false,
+                  page: 1,
+                  totalPages: 1,
+                  page1: 1,
+                  totalPages1: totalPages1
+                });
+
+              }
+
+
+
+            }
+            else{
+
+              res.render('index', {
+                pageDescription: 'The Home route',
+                fanFictions: ff,
+                fanTheories: FanTheories1,
+                errors:false,
+                page: 1,
+                totalPages: totalPages,
+                page1: 1,
+                totalPages1: totalPages1
+              });
+            }
+
+          }
+        });
+
+
+
 
       }
     });
+
+    <!---->
+
+
+
   }
   else{
     res.render('preLoginHome', {
@@ -185,6 +222,9 @@ app.get('/sendFeedback', function(req, res){
 
 let fanTheories = require('./routes/fanTheories');
 app.use('/fanTheories', fanTheories);
+
+let fanFictions = require('./routes/fanFictions');
+app.use('/fanFictions', fanFictions);
 
 let users = require('./routes/users');
 app.use('/users', users);

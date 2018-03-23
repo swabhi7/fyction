@@ -141,3 +141,18 @@ border-top: 1px solid #ddd;
 border-radius: 0;
 color: #fff;
 }
+
+@media (max-width: @screen-xs) {
+    body{font-size: 5px;}
+    h1{font-size: 5px;}
+}
+
+@media (max-width: @screen-sm) {
+    body{font-size: 7px;}
+    h1{font-size: 5px;}
+}
+
+
+h5{
+    font-size: 1.4em;
+}

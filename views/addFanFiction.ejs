@@ -1,0 +1,43 @@
+<% include partials/header %>
+
+<div class="container">
+<div class="row">
+<div class="col-12">
+
+<form method= 'POST' action= '/fanFictions/add'>
+  <div id="form-group">
+    <label>Title</label>
+    <input class="form-control" name="title" type="text">
+  </div>
+  <div id="form-group">
+    <label>Category</label>
+    <select class="form-control" id="sel1" name="category">
+      <option>Game of thrones</option>
+      <option>Harry Potter</option>
+      <option>Marvel</option>
+      <option>DC</option>
+      <option>F.R.I.E.N.D.S.</option>
+      <option>How I met your mother</option>
+      <option>The Big Bang Theory</option>
+      <option>Lord of the rings</option>
+      <option>Narnia</option>
+      <option>Star Wars</option>
+      <option>Star Trek</option>
+      <option>James Bond</option>
+      <option>Sherlock Holmes</option>
+      <option>Other</option>
+    </select>
+  </div>
+  <div id="form-group">
+    <label>Fiction</label>
+    <textarea class="form-control" name="description"></textarea>
+  </div>
+  <br>
+  <input class="btn btn-primary" type="submit" value="Submit">
+</form>
+
+</div>
+</div>
+</div>
+
+<% include partials/footer %>
