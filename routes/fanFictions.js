@@ -269,6 +269,7 @@ router.post('/add', function(req, res){
     fanTheory.time = '';
     fanTheory.comments = [];
     fanTheory.dateandtime = Date();
+    fanTheory.email = req.user.email;
 
     fanTheory.save(function(err){
       if(err){
@@ -298,6 +299,7 @@ router.post('/edit/:id', function(req, res){
   let fanTheory = {};
   fanTheory.title = req.body.title;
   fanTheory.body = req.body.description;
+  fanTheory.email = req.user.email;
 
   let query = {_id:req.params.id};
 
@@ -307,7 +309,7 @@ router.post('/edit/:id', function(req, res){
     }
     else{
       req.flash('success', 'Fan Fiction updated!');
-      res.redirect('/');
+      res.redirect('/users/profile/' + req.user._id);
     }
   });
 });

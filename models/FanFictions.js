@@ -13,6 +13,10 @@ let FanFictionsScheme = mongoose.Schema({
     required: false,
     type: String
   },
+  email: {
+    required: false,
+    type: String
+  },
   noOfLikes: {
     required: false,
     type: Number

@@ -4,6 +4,8 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 
 let Users = require('../models/Users');
+let FanTheories = require('../models/FanTheories');
+let FanFictions = require('../models/FanFictions');
 
 router.get('/signup', function(req, res){
   res.render('signup', {
@@ -83,11 +85,37 @@ router.get('/logout', function(req, res){
 router.get('/profile/:id', function(req, res){
   Users.findById(req.params.id, function(err, user){
 
-    res.render('userProfile', {
-      pageDescription : 'My Profile',
-      user : user,
-      errors:false
+    FanTheories.find({email: user.email}, function(err, fts){
+      if(err){
+        console.log(err);
+      }
+      else{
+        fts.sort(function(a,b){
+          return new Date(b.dateandtime) - new Date(a.dateandtime);
+        });
+        FanFictions.find({email: user.email}, function(err, ffs){
+          if(err){
+            console.log(err);
+          }
+          else{
+            ffs.sort(function(a,b){
+              return new Date(b.dateandtime) - new Date(a.dateandtime);
+            });
+
+            res.render('userProfile', {
+              pageDescription : 'My Profile',
+              user : user,
+              errors:false,
+              fanTheories : fts,
+              fanFictions : ffs
+            });
+
+          }
+        });
+      }
     });
+
+
   });
 });
 

@@ -1,5 +1,64 @@
 <% include partials/header %>
 
-<p><%=user.name%></p>
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs nav-justified">
+          <li class="nav-item">
+            <a class="nav-link active text-dark" data-toggle="tab" href="#ft"><h6>My Fan theories</h6></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark" data-toggle="tab" href="#ff"><h6>My Fan fictions</h6></a>
+          </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div class="tab-pane active container" id="ft">
+
+            <br>
+
+            <ul class="list-group">
+              <% fanTheories.forEach(function(fanTheory){ %>
+                <li class="list-group-item">
+                  <h3><%= fanTheory.title %></h3>
+                  <h6><strong><u>Category</u></strong> : <%=fanTheory.category%></h6>
+                  <p><%- fanTheory.body.replace(/\r?\n/g, '<br />'); %></p>
+                  <% let link = '/fanTheories/edit/' + fanTheory._id %>
+                  <a href="<%=link%>"><button class="btn btn-primary">Edit</button></a>
+                  <% link = '/fanTheories/delete/' + fanTheory._id %>
+                  <a href="<%=link%>"><button class="btn btn-primary">Delete</button></a>
+                </li>
+              <% }); %>
+            </ul>
+
+          </div>
+          <div class="tab-pane container" id="ff">
+
+            <br>
+
+            <ul class="list-group">
+              <% fanFictions.forEach(function(fanTheory){ %>
+                <li class="list-group-item">
+                  <h3><%= fanTheory.title %></h3>
+                  <h6><strong><u>Category</u></strong> : <%=fanTheory.category%></h6>
+                  <p><%- fanTheory.body.replace(/\r?\n/g, '<br />'); %></p>
+                  <% let link = '/fanFictions/edit/' + fanTheory._id %>
+                  <a href="<%=link%>"><button class="btn btn-primary">Edit</button></a>
+                  <% link = '/fanFictions/delete/' + fanTheory._id %>
+                  <a href="<%=link%>"><button class="btn btn-primary">Delete</button></a>
+                </li>
+              <% }); %>
+            </ul>
+
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
 
 <% include partials/footer %>

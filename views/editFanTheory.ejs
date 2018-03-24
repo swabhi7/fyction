@@ -1,4 +1,9 @@
 <% include partials/header %>
+
+<div class="container">
+<div class="row">
+<div class="col-12">
+
 <% let link = "/fanTheories/edit/" + fanTheory._id%>
 
 <form method= 'POST' action= '<%= link %>'>
@@ -13,5 +18,9 @@
   <br>
   <input class="btn btn-primary" type="submit" value="Submit">
 </form>
+
+</div>
+</div>
+</div>
 
 <% include partials/footer %>
