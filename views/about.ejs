@@ -6,21 +6,66 @@
 
   <div class="jumbotron text-dark">
     <h1>About The Website</h1>
-    <p>Bootstrap is the most popular HTML, CSS...</p>
+    <p>This website is for fans (any fans, be it Game of thrones, Harry Potter, FRIENDS .. anything) all over the internet to come together and share their ideas on their favourite topic.</p>
+    <p>Users can view and comment on amazing fan theories / fictions / arts created by other users. Users can also post their own.</p>
   </div>
 
   <div class="jumbotron text-dark">
     <h1>Features</h1>
-    <p>Bootstrap is the most popular HTML, CSS...</p>
+    <div id="accordion">
+      <div class="card">
+        <div class="card-header">
+          <a class="collapsed card-link" data-toggle="collapse" href="#collapseft">
+            Fan Theories
+          </a>
+        </div>
+        <div id="collapseft" class="collapse" data-parent="#accordion">
+          <div class="card-body">
+            <p>You can post you own Fan Theory for people all over the world to see. Edit them. Delete them.</p>
+            <p>You can view fan theories posted by other people and like and comment on them.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <a class="collapsed card-link" data-toggle="collapse" href="#collapseff">
+            Fan Fictions
+          </a>
+        </div>
+        <div id="collapseff" class="collapse" data-parent="#accordion">
+          <div class="card-body">
+            <p>You can post you own Fan Theory for people all over the world to see. Edit them. Delete them.</p>
+            <p>You can view fan theories posted by other people and like and comment on them.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <a class="collapsed card-link" data-toggle="collapse" href="#collapsefa">
+            Fan Arts
+          </a>
+        </div>
+        <div id="collapsefa" class="collapse" data-parent="#accordion">
+          <div class="card-body">
+            <p>You can post you own Fan Theory for people all over the world to see. Edit them. Delete them.</p>
+            <p>You can view fan theories posted by other people and like and comment on them.</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
 
   <div class="jumbotron text-dark">
 
+    <h1>About Me</h1>
+
     <div class="container">
       <div class="row">
-        <div class="col-4" align="center">
-          <div class="card" style="width:300px; height:440px;">
+        <div class="col-sm-4" align="center">
+          <div class="card" style="width:100%;">
           <img class="card-img-top" src="/images/swabhi.jpg" alt="Card image" style="width:100%">
           <div class="card-body">
             <h5 class="card-title">Swabhimaan Dash</h5>
@@ -29,24 +74,51 @@
           </div>
         </div>
 
-        <div class="col-8">
+        <div class="col-sm-8">
 
-          <h1>About Me</h1>
-          <br>
-          <p>
-            <u><strong><i>Profession</i></strong></u><br><br>
-            I am currently working in Infosys at Pune as a Test Engineer.
-            <br><br>
-            <u><strong><i>Personal</i></strong></u><br><br>
-            Love Programming<br>
-            Mostly interested in Web Development and 2D game programming<br>
-            Also interested in plain old console programming<br>
-            Value Hardwork the most<br>
-            Over-thinker at times<br>
-            Proud Geek<br>
-            Learning guitar. Halfway through. Will learn Ukelele after that.
+          <div id="accordion">
 
-          </p>
+
+
+
+
+
+          <div class="card">
+            <div class="card-header">
+              <a class="collapsed card-link collapse show" data-toggle="collapse" href="#collapseTwo">
+                Professional
+              </a>
+            </div>
+            <div id="collapseTwo" class="collapse" data-parent="#accordion">
+              <div class="card-body">
+                I am currently working in Infosys at Pune as a Test Engineer. This is my first job. Before Pune  was in Hyderabad for 5 months and before that I was in Mysore for 6 months. Originally from Bhubaneswar.
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <a class="collapsed card-link" data-toggle="collapse" href="#collapseThree">
+                Personal
+              </a>
+            </div>
+            <div id="collapseThree" class="collapse" data-parent="#accordion">
+              <div class="card-body">
+                <p>
+                  Love programming. Mostly interested in Web development and 2D game programming but i also find plain old console programming quite fascinating.<br>
+                  Appriciete hardwork and like to think of myself as a hardworker. <br>
+                  An overthinker sometimes. Dont like parties and loud music. Would rewatch game of thrones on the couch rather than go out on weekends. Proud geek. <br>
+                  Currently learning the guitar. Halfway through. Will learn Ukelele after that.<br>
+                  Like learning. Growing.
+
+                </p>
+              </div>
+            </div>
+          </div>
+
+          </div>
+
+
 
         </div>
 

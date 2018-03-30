@@ -18,7 +18,7 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link  text-dark" data-toggle="tab" href="#qna"><h6>Q-N-A</h6></a>
+            <a class="nav-link  text-dark" data-toggle="tab" href="#fanArts"><h6>Fan Arts</h6></a>
           </li>
 
         </ul>
@@ -473,7 +473,100 @@
           <% } %>
 
       </div>
-      <div class="tab-pane container" id="qna">QNA</div>
+      <div class="tab-pane container" id="fanArts">
+
+        <div class="dropdown" align="right">
+          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+            Filter by Category
+          </button>
+          <div class="dropdown-menu">
+            <h5 class="dropdown-header">Categories</h5>
+
+            <h5 class="dropdown-header">
+            	<form method= 'POST' action= '/fanArts/filtered'>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" value="Game of thrones" name="filterCheckbox">Game of thrones
+                  </label>
+                </div>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" value="Harry Potter" name="filterCheckbox">Harry Potter
+                  </label>
+                </div>
+                <div class="form-check disabled">
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" value="Marvel" name="filterCheckbox">Marvel
+                  </label>
+                </div>
+                <div class="form-check disabled">
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" value="DC" name="filterCheckbox">DC
+                  </label>
+                </div>
+                <div class="form-check disabled">
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" value="F.R.I.E.N.D.S." name="filterCheckbox">F.R.I.E.N.D.S.
+                  </label>
+                </div>
+                <div class="form-check disabled">
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" value="How I met your mother" name="filterCheckbox">How I met your mother
+                  </label>
+                </div>
+                <div class="form-check disabled">
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" value="The Big Bang Theory" name="filterCheckbox">The Big Bang Theory
+                  </label>
+                </div>
+                <div class="form-check disabled">
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" value="Lord of the rings" name="filterCheckbox">Lord of the rings
+                  </label>
+                </div>
+                <div class="form-check disabled">
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" value="Narnia" name="filterCheckbox" >Narnia
+                  </label>
+                </div>
+                <div class="form-check disabled">
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" value="Star Wars" name="filterCheckbox" >Star Wars
+                  </label>
+                </div>
+                <div class="form-check disabled">
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" value="Star Trek" name="filterCheckbox" >Star Trek
+                  </label>
+                </div>
+                <div class="form-check disabled">
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" value="James Bond" name="filterCheckbox" >James Bond
+                  </label>
+                </div>
+                <div class="form-check disabled">
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" value="Sherlock Holmes" name="filterCheckbox" >Sherlock Holmes
+                  </label>
+                </div>
+                <div class="form-check disabled">
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" value="Other" name="filterCheckbox" >Other
+                  </label>
+                </div>
+
+                <br>
+                <input class="btn btn-primary" type="submit" value="Apply">
+              </form>
+            </h5>
+          </div>
+        </div>
+
+      </div>
+
+
+      <h1></h1>
+
 
     </div>
 
