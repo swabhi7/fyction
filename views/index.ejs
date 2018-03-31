@@ -562,6 +562,111 @@
           </div>
         </div>
 
+        <br>
+        <ul class="list-group">
+          <% let link; %>
+          <% fanArts.forEach(function(fanTheory){ %>
+            <% let link = "/fanFictions/details/" + fanTheory._id.toString() %>
+            <li class="list-group-item"><!--<a href="<%=link%>">-->
+              <h3><%= fanTheory.caption %></h3>
+              <h6><strong><u>Category</u></strong> : <%=fanTheory.category%></h6>
+              <hr>
+
+                <% flag1++ %>
+
+                <div class="anything">
+                  <% link = 'uploads/' + fanTheory.filename %>
+                  <img src="<%=link%>" style="width:100%;">
+                  <hr>
+                  <p><strong><u>Created by - </u> -</strong> <%= fanTheory.createdBy %></p>
+                  <p><strong><u>Posted on</u> -</strong> <%= fanTheory.dateandtime%></p>
+
+
+                  <% let liked1 = false, hrefValue1 = '';%>
+                  <% if(fanTheory.likedBy){ %>
+                    <% fanTheory.likedBy.forEach(function(emailLiked){ %>
+                      <% if(emailLiked == user.email){ %>
+                        <% liked1 = true; %>
+                      <%}%>
+                    <% }); %>
+                    <% if(liked1 == false){ %>
+                      <% hrefValue1 = '/fanArts/addLike/' + fanTheory._id %>
+                      <a href="<%=hrefValue1%>"><button class="btn btn-primary">Like <span class="badge badge-dark"><%=fanTheory.likedBy.length%></span></button></a>
+                    <% } %>
+                  <% } else { %>
+                    <% hrefValue1 = '/fanArts/addLike/' + fanTheory._id %>
+                    <a href="<%=hrefValue1%>"><button class="btn btn-primary btn-xs">Like Messages <span class="badge badge-dark"><%=fanTheory.likedBy.length%></span></button></a>
+                  <% } %>
+
+                  <% if(liked1 == true){ %>
+                    <a href="#"><button class="btn btn-basic btn-sm">Already liked <span class="badge badge-dark"><%=fanTheory.likedBy.length%></span></button></a>
+                  <% } %>
+
+                  <hr>
+                  <h4><u>Comments</u></h4>
+                  <br>
+                  <% let acn1 = "/fanArts/addComment/" + fanTheory._id; %>
+
+                  <ul class="list-group">
+                    <% fanTheory.comments.forEach(function(comment){ %>
+                      <li class="list-group-item"><strong><u><%=comment.usr%></u></strong><br> <%=comment.msg%></li>
+                    <% }); %>
+                  </ul>
+                  <br>
+                  <form method= 'POST' action= '<%=acn1%>'>
+                    <div id="form-group">
+                      <textarea class="form-control" name="comment" placeholder="Type your comment.."></textarea>
+                    </div>
+                    <br>
+                    <input class="btn btn-primary" type="submit" value="Post">
+                  </form>
+
+
+                </div>
+                <br>
+
+            <!--</a>--></li>
+          <% }) %>
+        </ul>
+        <br>
+        <% if(pageDescription != 'filteredff' && pageDescription != 'filteredft'){ %>
+          <ul class="pagination">
+            <% let cls, link; %>
+            <% if(page1 == 1){ %>
+              <% cls = "page-item disabled"; %>
+              <% link = "#"; %>
+            <% } else { %>
+              <% cls = "page-item"; %>
+              <% link = "/fanArts/page/" + (Number(page1) - 1); %>
+            <% } %>
+            <li class="<%=cls%>"><a class="page-link" href="<%=link%>">Previous</a></li>
+
+            <% for(let i = 1; i <= totalPages2; i++){ %>
+              <% if(i == page1){ %>
+                <%cls = "page-item active";%>
+              <% } else { %>
+                <%cls = "page-item";%>
+              <% } %>
+              <% link = "/fanArts/page/" + i; %>
+
+              <li class="<%=cls%>"><a class="page-link" href="<%=link%>"><%=i%></a></li>
+            <% } %>
+
+            <% if(page1 == totalPages2){ %>
+              <% cls = "page-item disabled"; %>
+              <% link = "#"; %>
+            <% } else { %>
+              <% cls = "page-item"; %>
+              <% link = "/fanArts/page/" + (Number(page1) + 1); %>
+            <% } %>
+
+            <li class="<%=cls%>"><a class="page-link" href="<%=link%>">Next</a></li>
+
+
+          </ul>
+        <% } %>
+
+
       </div>
 
 

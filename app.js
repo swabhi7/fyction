@@ -89,8 +89,24 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({
-  storage: storage
+  storage: storage,
+  limits: {fileSize: 2000000},
+  fileFilter: function(req, file, cb){
+    checkFileType(file, cb);
+  }
 }).single('fanArt');
+
+function checkFileType(file, cb){
+  const filetypes = /jpeg|jpg|png/;
+  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+  const mimetype = filetypes.test(file.mimetype);
+  if(mimetype && extname){
+    return cb(null, true);
+  }
+  else{
+    cb('Error: Images only!');
+  }
+}
 
 app.get('/', function(req, res){
   if(req.user){
@@ -130,58 +146,94 @@ app.get('/', function(req, res){
 
             ff = FanTheories;
 
+            let fa, totalPages2;
+            FanArts.find({}, function(err, FanTheories){
 
-            if(req.query.x){
-              let fts = JSON.parse(req.query.x);
-              let tp = Math.floor(fts.length / 5 + 1);
-              let pn = req.query.page;
-              fts.sort(function(a,b){
-                return new Date(b.dateandtime) - new Date(a.dateandtime);
-              });
-
-              if(req.query.valid == 'fiction'){
-                res.render('index', {
-                  pageDescription: 'filteredff',
-                  fanFictions: fts,
-                  fanTheories: FanTheories1,
-                  errors:false,
-                  page: 1,
-                  totalPages: totalPages,
-                  page1: 1,
-                  totalPages1: 1
-                });
+              if(err){
+                console.log(err);
               }
               else{
 
-                res.render('index', {
-                  pageDescription: 'filteredft',
-                  fanFictions: ff,
-                  fanTheories: fts,
-                  errors:false,
-                  page: 1,
-                  totalPages: 1,
-                  page1: 1,
-                  totalPages1: totalPages1
+                totalPages2 = Math.floor(FanTheories.length / 5 + 1);
+                let pageno1 = 1;
+
+                FanTheories.sort(function(a,b){
+                  return new Date(b.dateandtime) - new Date(a.dateandtime);
                 });
 
+                FanTheories.splice(0, (pageno1 - 1) * 5);
+                if(FanTheories.length > 5){
+                  FanTheories.splice(5, FanTheories.length - 5);
+                }
+
+                fa = FanTheories;
+                <!---->
+
+                if(req.query.x){
+                  let fts = JSON.parse(req.query.x);
+                  let tp = Math.floor(fts.length / 5 + 1);
+                  let pn = req.query.page;
+                  fts.sort(function(a,b){
+                    return new Date(b.dateandtime) - new Date(a.dateandtime);
+                  });
+
+                  if(req.query.valid == 'fiction'){
+                    res.render('index', {
+                      pageDescription: 'filteredff',
+                      fanFictions: fts,
+                      fanTheories: FanTheories1,
+                      errors:false,
+                      page: 1,
+                      totalPages: totalPages,
+                      page1: 1,
+                      totalPages1: 1,
+                      fanArts: fa,
+                      totalPages2: totalPages2
+                    });
+                  }
+                  else{
+
+                    res.render('index', {
+                      pageDescription: 'filteredft',
+                      fanFictions: ff,
+                      fanTheories: fts,
+                      errors:false,
+                      page: 1,
+                      totalPages: 1,
+                      page1: 1,
+                      totalPages1: totalPages1,
+                      fanArts: fa,
+                      totalPages2: totalPages2
+                    });
+
+                  }
+
+
+
+                }
+                else{
+
+                  res.render('index', {
+                    pageDescription: 'The Home route',
+                    fanFictions: ff,
+                    fanTheories: FanTheories1,
+                    errors:false,
+                    page: 1,
+                    totalPages: totalPages,
+                    page1: 1,
+                    totalPages1: totalPages1,
+                    fanArts: fa,
+                    totalPages2: totalPages2
+                  });
+                }
               }
 
 
 
-            }
-            else{
+            });
 
-              res.render('index', {
-                pageDescription: 'The Home route',
-                fanFictions: ff,
-                fanTheories: FanTheories1,
-                errors:false,
-                page: 1,
-                totalPages: totalPages,
-                page1: 1,
-                totalPages1: totalPages1
-              });
-            }
+
+
 
           }
         });
@@ -243,7 +295,8 @@ app.get('/fanArts/add', function(req, res){
 app.post('/fanArts/add', function(req, res){
   upload(req, res, function(err){
     if(err){
-      console.log(err);
+      req.flash('danger', err.message);
+      res.redirect('/fanArts/add');
     }
     else{
       console.log(req.file);
@@ -260,29 +313,36 @@ app.post('/fanArts/add', function(req, res){
         });
       }
       else{
-        console.log('yo1');
-        let fanArt = new FanArts();
-        fanArt.caption = req.body.caption;
-        fanArt.filename = req.file.filename;
-        fanArt.createdBy = req.user.name;
-        fanArt.category = req.body.category;
-        fanArt.noOfLikes = 0;
-        fanArt.date = '';
-        fanArt.time = '';
-        fanArt.comments = [];
-        fanArt.dateandtime = Date();
-        fanArt.email = req.user.email;
+        if(req.file == undefined){
+          req.flash('danger', 'No file selected');
+          res.redirect('/fanArts/add');
+        }
+        else{
 
-        fanArt.save(function(err){
-          if(err){
-            console.log(err);
-          }
-          else{
+          console.log('yo1');
+          let fanArt = new FanArts();
+          fanArt.caption = req.body.caption;
+          fanArt.filename = req.file.filename;
+          fanArt.createdBy = req.user.name;
+          fanArt.category = req.body.category;
+          fanArt.noOfLikes = 0;
+          fanArt.date = '';
+          fanArt.time = '';
+          fanArt.comments = [];
+          fanArt.dateandtime = Date();
+          fanArt.email = req.user.email;
 
-            req.flash('success', 'Fan Art added!');
-            res.redirect('/');
-          }
-        });
+          fanArt.save(function(err){
+            if(err){
+              console.log(err);
+            }
+            else{
+
+              req.flash('success', 'Fan Art added!');
+              res.redirect('/');
+            }
+          });
+        }
 
       }
     }
