@@ -349,6 +349,69 @@ app.post('/fanArts/add', function(req, res){
   });
 });
 
+app.get('/fanArts/addLike/:id', function(req, res){
+  let ft = {};
+  ft.likedBy = [];
+
+  FanArts.findById(req.params.id, function(err, fanTheory){
+    ft.likedBy = fanTheory.likedBy;
+    ft.likedBy.push(req.user.email);
+
+    let query = {_id:req.params.id};
+
+    FanArts.update(query, ft, function(err){
+      if(err){
+        console.log(err);
+      }
+      else{
+        req.flash('success', 'Fan Art liked!');
+        res.redirect('/');
+      }
+    });
+
+  });
+
+});
+
+
+app.post('/fanArts/addComment/:id', function(req, res){
+  let fanFiction = {};
+  fanFiction.comments = [];
+
+  FanArts.find({_id:req.params.id}, function(err, ft){
+    if(err){
+      console.log(err);
+    }
+    else{
+      console.log('this is it1-'+ft[0].comments);
+      fanFiction.comments = ft[0].comments;
+      console.log('this is it2-'+fanFiction.comments);
+      console.log('this is it3-'+fanFiction.comments);
+      console.log('user'+req.user.name);
+      fanFiction.comments.push({msg:req.body.comment, usr:req.user.name});
+      console.log('user'+req.user.name);
+      console.log('this is it4-'+fanFiction.comments);
+
+      let query = {_id:req.params.id};
+
+      FanArts.update(query, fanFiction, function(err){
+        if(err){
+          console.log(err);
+        }
+        else{
+          req.flash('success', 'Comment posted!');
+          res.redirect('/');
+        }
+      });
+
+
+    }
+  });
+
+
+
+});
+
 
 
 let fanTheories = require('./routes/fanTheories');
