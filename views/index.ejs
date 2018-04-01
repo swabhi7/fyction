@@ -629,20 +629,20 @@
           <% }) %>
         </ul>
         <br>
-        <% if(pageDescription != 'filteredff' && pageDescription != 'filteredft'){ %>
+        <% if(pageDescription != 'filteredff' && pageDescription != 'filteredft' && pageDescription != 'filteredfa'){ %>
           <ul class="pagination">
             <% let cls, link; %>
-            <% if(page1 == 1){ %>
+            <% if(page2 == 1){ %>
               <% cls = "page-item disabled"; %>
               <% link = "#"; %>
             <% } else { %>
               <% cls = "page-item"; %>
-              <% link = "/fanArts/page/" + (Number(page1) - 1); %>
+              <% link = "/fanArts/page/" + (Number(page2) - 1); %>
             <% } %>
             <li class="<%=cls%>"><a class="page-link" href="<%=link%>">Previous</a></li>
 
             <% for(let i = 1; i <= totalPages2; i++){ %>
-              <% if(i == page1){ %>
+              <% if(i == page2){ %>
                 <%cls = "page-item active";%>
               <% } else { %>
                 <%cls = "page-item";%>
@@ -652,12 +652,12 @@
               <li class="<%=cls%>"><a class="page-link" href="<%=link%>"><%=i%></a></li>
             <% } %>
 
-            <% if(page1 == totalPages2){ %>
+            <% if(page2 == totalPages2){ %>
               <% cls = "page-item disabled"; %>
               <% link = "#"; %>
             <% } else { %>
               <% cls = "page-item"; %>
-              <% link = "/fanArts/page/" + (Number(page1) + 1); %>
+              <% link = "/fanArts/page/" + (Number(page2) + 1); %>
             <% } %>
 
             <li class="<%=cls%>"><a class="page-link" href="<%=link%>">Next</a></li>

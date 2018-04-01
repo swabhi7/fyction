@@ -12,6 +12,9 @@
           <li class="nav-item">
             <a class="nav-link text-dark" data-toggle="tab" href="#ff"><h6>My Fan fictions</h6></a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark" data-toggle="tab" href="#fa"><h6>My Fan arts</h6></a>
+          </li>
         </ul>
 
         <!-- Tab panes -->
@@ -47,6 +50,25 @@
                   <p><%- fanTheory.body.replace(/\r?\n/g, '<br />'); %></p>
                   <% let link = '/fanFictions/edit/' + fanTheory._id %>
                   <a href="<%=link%>"><button class="btn btn-primary">Edit</button></a>
+                  <% link = '/fanFictions/delete/' + fanTheory._id %>
+                  <a href="<%=link%>"><button class="btn btn-primary">Delete</button></a>
+                </li>
+              <% }); %>
+            </ul>
+
+          </div>
+          <div class="tab-pane container" id="fa">
+
+            <br>
+
+            <ul class="list-group">
+              <% fanArts.forEach(function(fanTheory){ %>
+                <li class="list-group-item">
+                  <h3><%= fanTheory.caption %></h3>
+                  <h6><strong><u>Category</u></strong> : <%=fanTheory.category%></h6>
+                  <% link1 = 'uploads/' + fanTheory.filename %>
+                  <img src="<%=link1%>" style="width:100%;">
+                  
                   <% link = '/fanFictions/delete/' + fanTheory._id %>
                   <a href="<%=link%>"><button class="btn btn-primary">Delete</button></a>
                 </li>

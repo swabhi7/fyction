@@ -1,4 +1,6 @@
 const express = require('express');
+const url = require('url');
+var querystring = require('querystring');
 const multer = require('multer');
 const path = require('path');
 const mongoose = require('mongoose');
@@ -75,12 +77,6 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get('*', function(req, res, next){
-  console.log('url - '+req.url);
-  res.locals.user = req.user || null;
-  next();
-});
-
 const storage = multer.diskStorage({
   destination: './public/uploads/',
   filename: function(req, file, cb){
@@ -108,13 +104,124 @@ function checkFileType(file, cb){
   }
 }
 
+app.get('*', function(req, res, next){
+  console.log('url - '+req.url);
+  res.locals.user = req.user || null;
+  next();
+});
+
+app.get('/fanArts/page/:page', function(req, res){
+  if(req.user){
+    FanArts.find({}, function(err, FanFictions1){
+      if(err){
+        console.log(err);
+      }
+      else{
+        //console.log(FanTheories);
+
+        let totalPages;
+        if(FanFictions1.length % 5 === 0)
+          totalPages = FanFictions1.length / 5;
+        else
+          totalPages = Math.floor(FanFictions1.length / 5 + 1);
+        console.log('Total : ' + totalPages);
+
+        let pageno = req.params.page;
+        //FanTheories.reverse();
+        FanFictions1.sort(function(a,b){
+        // Turn your strings into dates, and then subtract them
+        // to get a value that is either negative, positive, or zero.
+        return new Date(b.dateandtime) - new Date(a.dateandtime);
+        });
+        FanFictions1.splice(0, (pageno - 1) * 5);
+        if(FanFictions1.length > 5){
+          FanFictions1.splice(5, FanFictions1.length - 5);
+        }
+
+        let fts;
+        FanTheories.find({}, function(err, fantheories){
+          if(err){
+            console.log(err);
+          }
+          else{
+
+            fts = fantheories;
+            fts.sort(function(a,b){
+            // Turn your strings into dates, and then subtract them
+            // to get a value that is either negative, positive, or zero.
+            return new Date(b.dateandtime) - new Date(a.dateandtime);
+            });
+
+            let tp1;
+            if(fts.length % 5 === 0)
+              tp1 = fts.length / 5;
+            else
+              tp1 = Math.floor(fts.length / 5 + 1);
+
+              let ffs;
+              FanFictions.find({}, function(err, fantheories1){
+
+                if(err){
+                  console.log('every5');
+                  console.log(err);
+                }
+                else{
+
+                  ffs = fantheories1;
+                  ffs.sort(function(a,b){
+                  // Turn your strings into dates, and then subtract them
+                  // to get a value that is either negative, positive, or zero.
+                  return new Date(b.dateandtime) - new Date(a.dateandtime);
+                  });
+
+                  let fftp;
+                  if(ffs.length % 5 === 0)
+                    fftp = ffs.length / 5;
+                  else
+                    fftp = Math.floor(ffs.length / 5 + 1);
+
+                    res.render('index', {
+                      pageDescription: 'The Home route',
+                      fanFictions: ffs,
+                      fanTheories: fts,
+                      fanArts: FanFictions1,
+                      errors:false,
+                      page: 1,
+                      totalPages: tp1,
+                      page1: 1,
+                      totalPages1: fftp,
+                      page2: pageno,
+                      totalPages2: totalPages
+                    });
+
+                  }
+                });
+
+
+          }
+        });
+
+
+      }
+    });
+  }
+  else{
+    res.render('preLoginHome', {
+      pageDescription: 'The Nerd Home',
+      errors: false
+    });
+  }
+});
+
 app.get('/', function(req, res){
+
   if(req.user){
     FanTheories.find({}, function(err, FanTheories1){
       if(err){
         console.log(err);
       }
       else{
+
         let totalPages = Math.floor(FanTheories1.length / 5 + 1);
         let pageno = 1;
 
@@ -128,6 +235,7 @@ app.get('/', function(req, res){
         }
         let ff, totalPages1;
         FanFictions.find({}, function(err, FanTheories){
+
           if(err){
             console.log(err);
           }
@@ -170,6 +278,7 @@ app.get('/', function(req, res){
                 <!---->
 
                 if(req.query.x){
+                  console.log('redirected');
                   let fts = JSON.parse(req.query.x);
                   let tp = Math.floor(fts.length / 5 + 1);
                   let pn = req.query.page;
@@ -192,19 +301,35 @@ app.get('/', function(req, res){
                     });
                   }
                   else{
+                    if(req.query.valid == 'art'){
+                      res.render('index', {
+                        pageDescription: 'filteredfa',
+                        fanFictions: ff,
+                        fanTheories: FanTheories1,
+                        errors:false,
+                        page: 1,
+                        totalPages: 1,
+                        page1: 1,
+                        totalPages1: totalPages1,
+                        fanArts: fts,
+                        totalPages2: totalPages2
+                      });
+                    }
+                    else{
+                      res.render('index', {
+                        pageDescription: 'filteredft',
+                        fanFictions: ff,
+                        fanTheories: fts,
+                        errors:false,
+                        page: 1,
+                        totalPages: 1,
+                        page1: 1,
+                        totalPages1: totalPages1,
+                        fanArts: fa,
+                        totalPages2: totalPages2
+                      });
+                    }
 
-                    res.render('index', {
-                      pageDescription: 'filteredft',
-                      fanFictions: ff,
-                      fanTheories: fts,
-                      errors:false,
-                      page: 1,
-                      totalPages: 1,
-                      page1: 1,
-                      totalPages1: totalPages1,
-                      fanArts: fa,
-                      totalPages2: totalPages2
-                    });
 
                   }
 
@@ -223,7 +348,8 @@ app.get('/', function(req, res){
                     page1: 1,
                     totalPages1: totalPages1,
                     fanArts: fa,
-                    totalPages2: totalPages2
+                    totalPages2: totalPages2,
+                    page2: 1
                   });
                 }
               }
@@ -257,6 +383,8 @@ app.get('/', function(req, res){
   }
 });
 
+
+
 app.get('/preLoginHome', function(req, res){
   res.render('preLoginHome', {
     pageDescription: 'The Nerd Home',
@@ -283,6 +411,104 @@ app.get('/sendFeedback', function(req, res){
     pageDescription: 'Send Feedback',
     errors: false
   });
+});
+
+app.post('/fanArts/filtered', function(req, res){
+  //console.log(req.body.filterCheckbox);
+  //res.send('filter page');
+  if(req.user){
+    let fts1 = [];
+
+    FanArts.find({}, function(err, fts){
+
+      if(err){
+
+        console.log(err);
+      }
+      else{
+        //let fts1 = [];
+        fts.forEach(function(ft){
+          if(req.body.filterCheckbox instanceof Array){
+            req.body.filterCheckbox.forEach(function(filter){
+              if(ft.category == filter){
+                console.log(ft.category);
+                fts1.push(ft);
+              }
+            });
+          }
+          else{
+            if(ft.category == req.body.filterCheckbox){
+              fts1.push(ft);
+            }
+          }
+        });
+
+
+
+
+        /*res.render('index', {
+          pageDescription: 'The Home route',
+          fanTheories: fts,
+          errors:false,
+          page: 1,
+          totalPages: 1
+        });*/
+
+        //res.redirect('/');
+        res.redirect(url.format({
+         pathname:"/",
+         query: {
+            "page": 1,
+            "b": 2,
+            "valid":"art",
+            "x": JSON.stringify(fts1)
+          }
+       }));
+       console.log('redirected');
+
+
+      }
+    });
+  }
+  else{
+    res.render('preLoginHome', {
+      pageDescription: 'The Nerd Home',
+      errors: false
+    });
+  }
+
+
+
+
+  /*FanTheories.find({category : { $in : req.body.filterCheckbox}}, function(err, fts){
+    if(err){
+      console.log(err);
+    }
+    else{
+      let totalPages;
+      if(fts.length % 5 === 0)
+        totalPages = fts.length / 5;
+      else
+        totalPages = Math.floor(fts.length / 5 + 1);
+      console.log('Total : ' + totalPages);
+
+      let pageno = 1;
+      fts.reverse();
+      fts.splice(0, (pageno - 1) * 5);
+      if(fts.length > 5){
+        fts.splice(5, fts.length - 5);
+      }
+
+      res.render('index', {
+        pageDescription: 'The Home route',
+        fanTheories: fts,
+        errors:false,
+        page: 1,
+        totalPages: 1
+      });
+    }
+  });
+  //res.send('meh');*/
 });
 
 app.get('/fanArts/add', function(req, res){

@@ -6,6 +6,7 @@ const passport = require('passport');
 let Users = require('../models/Users');
 let FanTheories = require('../models/FanTheories');
 let FanFictions = require('../models/FanFictions');
+let FanArts = require('../models/FanArts');
 
 router.get('/signup', function(req, res){
   res.render('signup', {
@@ -83,13 +84,15 @@ router.get('/logout', function(req, res){
 });
 
 router.get('/profile/:id', function(req, res){
-  Users.findById(req.params.id, function(err, user){
 
+  Users.findById(req.params.id, function(err, user){
+    console.log('ex1');
     FanTheories.find({email: user.email}, function(err, fts){
       if(err){
         console.log(err);
       }
       else{
+        console.log('ex2');
         fts.sort(function(a,b){
           return new Date(b.dateandtime) - new Date(a.dateandtime);
         });
@@ -98,17 +101,35 @@ router.get('/profile/:id', function(req, res){
             console.log(err);
           }
           else{
+            console.log('ex3');
             ffs.sort(function(a,b){
               return new Date(b.dateandtime) - new Date(a.dateandtime);
             });
+            console.log('ex4');
+            FanArts.find({email: user.email}, function(err, fas){
+
+              if(err){
+                console.log(err);
+              }
+              else{
+
+                fas.sort(function(a,b){
+                  return new Date(b.dateandtime) - new Date(a.dateandtime);
+                });
+
 
             res.render('userProfile', {
               pageDescription : 'My Profile',
               user : user,
               errors:false,
               fanTheories : fts,
-              fanFictions : ffs
+              fanFictions : ffs,
+              fanArts: fas
             });
+
+          }
+
+          });
 
           }
         });
