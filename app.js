@@ -27,6 +27,7 @@ const app = express();
 let FanTheories = require('./models/FanTheories');
 let FanFictions = require('./models/FanFictions');
 let FanArts = require('./models/FanArts');
+let Feedbacks = require('./models/Feedbacks');
 
 //app.set('views', path.join(__dirname, 'views'));
 //app.set('view engine', 'pug');
@@ -571,6 +572,23 @@ app.post('/fanArts/add', function(req, res){
         }
 
       }
+    }
+  });
+});
+
+app.post('/feedbacks/add', function(req, res){
+  let feedback = new Feedbacks();
+  feedback.name = req.body.name;
+  feedback.email = req.body.email;
+  feedback.message = req.body.message;
+  feedback.save(function(err){
+    if(err){
+      console.log(err);
+    }
+    else{
+
+      req.flash('success', 'Thanks for your feedback!');
+      res.redirect('/');
     }
   });
 });

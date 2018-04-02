@@ -5,6 +5,7 @@ var querystring = require('querystring');
 
 let FanFictions = require('../models/FanFictions');
 let FanTheories = require('../models/FanTheories');
+let FanArts = require('../models/FanArts');
 let Users = require('../models/Users');
 
 
@@ -60,7 +61,7 @@ router.get('/page/:page', function(req, res){
         console.log(err);
       }
       else{
-        //console.log(FanTheories);
+        console.log('motu1');
         let totalPages;
         if(FanFictions.length % 5 === 0)
           totalPages = FanFictions.length / 5;
@@ -86,6 +87,7 @@ router.get('/page/:page', function(req, res){
             console.log(err);
           }
           else{
+            console.log('motu2');
             fts = fantheories;
             fts.sort(function(a,b){
             // Turn your strings into dates, and then subtract them
@@ -99,16 +101,45 @@ router.get('/page/:page', function(req, res){
             else
               tp1 = Math.floor(fts.length / 5 + 1);
 
-            res.render('index', {
-              pageDescription: 'The Home route',
-              fanFictions: FanFictions,
-              fanTheories: fts,
-              errors:false,
-              page: 1,
-              totalPages: tp1,
-              page1: pageno,
-              totalPages1: totalPages
-            });
+              let fas, tp2;
+              FanArts.find({}, function(err, fantheories){
+                if(err){
+                  console.log(err);
+                }
+                else{
+                  console.log('motu3');
+                  fas = fantheories;
+                  fas.sort(function(a,b){
+                  // Turn your strings into dates, and then subtract them
+                  // to get a value that is either negative, positive, or zero.
+                  return new Date(b.dateandtime) - new Date(a.dateandtime);
+                  });
+
+                  let tp2;
+                  if(fas.length % 5 === 0)
+                    tp2 = fas.length / 5;
+                  else
+                    tp2 = Math.floor(fas.length / 5 + 1);
+
+                    res.render('index', {
+                      pageDescription: 'The Home route',
+                      fanFictions: FanFictions,
+                      fanTheories: fts,
+                      fanArts: fas,
+                      errors:false,
+                      page: 1,
+                      totalPages: tp1,
+                      page1: pageno,
+                      totalPages1: totalPages,
+                      page2: 1,
+                      totalPages2: tp2
+                    });
+
+                }
+
+
+              });
+
           }
         });
 

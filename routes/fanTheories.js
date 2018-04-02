@@ -5,6 +5,7 @@ var querystring = require('querystring');
 
 let FanTheories = require('../models/FanTheories');
 let FanFictions = require('../models/FanFictions');
+let FanArts = require('../models/FanArts');
 let Users = require('../models/Users');
 
 router.get('/details/:id', function(req, res){
@@ -112,16 +113,48 @@ router.get('/page/:page', function(req, res){
             else
               tp1 = Math.floor(fts.length / 5 + 1);
 
-              res.render('index', {
-                pageDescription: 'The Home route',
-                fanTheories: FanTheories,
-                errors:false,
-                page: pageno,
-                totalPages: totalPages,
-                fanFictions: fts,
-                page1: 1,
-                totalPages1: tp1
+              let fas, tp2;
+              FanArts.find({}, function(err, fantheories){
+                if(err){
+                  console.log(err);
+                }
+                else{
+                  console.log('motu3');
+                  fas = fantheories;
+                  fas.sort(function(a,b){
+                  // Turn your strings into dates, and then subtract them
+                  // to get a value that is either negative, positive, or zero.
+                  return new Date(b.dateandtime) - new Date(a.dateandtime);
+                  });
+
+                  let tp2;
+                  if(fas.length % 5 === 0)
+                    tp2 = fas.length / 5;
+                  else
+                    tp2 = Math.floor(fas.length / 5 + 1);
+
+                    res.render('index', {
+                      pageDescription: 'The Home route',
+                      fanTheories: FanTheories,
+                      errors:false,
+                      page: pageno,
+                      totalPages: totalPages,
+                      fanFictions: fts,
+                      page1: 1,
+                      totalPages1: tp1,
+                      fanArts: fas,
+                      page2: 1,
+                      totalPages2: tp2
+                    });
+
+                }
+
+
               });
+
+
+
+
           }
         });
 
