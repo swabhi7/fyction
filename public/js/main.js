@@ -10,12 +10,13 @@ $(document).ready(function(){
   $('.deleteFanTheory').on('click', function(e){
     $target = $(e.target);
     const id = $target.attr('data-id');
+    const userid = $target.attr('data-userid');
     $.ajax({
       type: 'DELETE',
       url: '/fanTheories/delete/' + id,
       success: function(responce){
         alert('Deleting fanTheory');
-        window.location.href = '/';
+        window.location.href = '/users/profile/' + userid;
       },
       error: function(err){
         console.log(err);
@@ -26,12 +27,31 @@ $(document).ready(function(){
   $('.deleteFanFiction').on('click', function(e){
     $target = $(e.target);
     const id = $target.attr('data-id');
+    const userid = $target.attr('data-userid');
     $.ajax({
       type: 'DELETE',
       url: '/fanFictions/delete/' + id,
       success: function(responce){
         alert('Deleting fanFiction');
-        window.location.href = '/';
+        window.location.href = '/users/profile/' + userid;
+      },
+      error: function(err){
+        console.log(err);
+      }
+    });
+  });
+
+  $('.deleteFanArt').on('click', function(e){
+    console.log('reached main');
+    $target = $(e.target);
+    const id = $target.attr('data-id');
+    const userid = $target.attr('data-userid');
+    $.ajax({
+      type: 'DELETE',
+      url: '/fanArts/delete/' + id,
+      success: function(responce){
+        alert('Deleting fanFiction');
+        window.location.href = '/users/profile/' + userid;
       },
       error: function(err){
         console.log(err);

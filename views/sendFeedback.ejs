@@ -1,5 +1,28 @@
 <% include partials/header %>
 
+<div class="container">
+<div class="row">
+<div class="col-12">
 
+<form method= 'POST' action= '/feedbacks/add'>
+  <div id="form-group">
+    <label>Name</label>
+    <input class="form-control" name="name" type="text">
+  </div>
+  <div id="form-group">
+    <label>Email</label>
+    <input class="form-control" name="email" type="text">
+  </div>
+  <div id="form-group">
+    <label>Message</label>
+    <textarea class="form-control" name="message"></textarea>
+  </div>
+  <br>
+  <input class="btn btn-primary" type="submit" value="Submit">
+</form>
+
+</div>
+</div>
+</div>
 
 <% include partials/footer %>

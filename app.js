@@ -599,6 +599,17 @@ app.get('/fanArts/addLike/:id', function(req, res){
 
 });
 
+app.delete('/fanArts/delete/:id', function(req, res){
+  let query = {_id:req.params.id};
+
+  FanArts.remove(query, function(err){
+    if(err){
+      console.log(err);
+    }
+    res.send('Success');
+  });
+});
+
 
 app.post('/fanArts/addComment/:id', function(req, res){
   let fanFiction = {};

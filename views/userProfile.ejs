@@ -31,8 +31,8 @@
                   <p><%- fanTheory.body.replace(/\r?\n/g, '<br />'); %></p>
                   <% let link = '/fanTheories/edit/' + fanTheory._id %>
                   <a href="<%=link%>"><button class="btn btn-primary">Edit</button></a>
-                  <% link = '/fanTheories/delete/' + fanTheory._id %>
-                  <a href="<%=link%>"><button class="btn btn-primary">Delete</button></a>
+                  <% let id = fanTheory._id, userid = user._id; %>
+                  <a href="#" class="btn btn-danger deleteFanTheory" data-id="<%=id%>" data-userid="<%=userid%>">Delete</a>
                 </li>
               <% }); %>
             </ul>
@@ -50,8 +50,8 @@
                   <p><%- fanTheory.body.replace(/\r?\n/g, '<br />'); %></p>
                   <% let link = '/fanFictions/edit/' + fanTheory._id %>
                   <a href="<%=link%>"><button class="btn btn-primary">Edit</button></a>
-                  <% link = '/fanFictions/delete/' + fanTheory._id %>
-                  <a href="<%=link%>"><button class="btn btn-primary">Delete</button></a>
+                  <% let id = fanTheory._id, userid = user._id; %>
+                  <a href="#" class="btn btn-danger deleteFanFiction" data-id="<%=id%>" data-userid="<%=userid%>">Delete</a>
                 </li>
               <% }); %>
             </ul>
@@ -68,9 +68,9 @@
                   <h6><strong><u>Category</u></strong> : <%=fanTheory.category%></h6>
                   <% link1 = 'uploads/' + fanTheory.filename %>
                   <img src="<%=link1%>" style="width:100%;">
-                  
-                  <% link = '/fanFictions/delete/' + fanTheory._id %>
-                  <a href="<%=link%>"><button class="btn btn-primary">Delete</button></a>
+
+                  <% let id = fanTheory._id, userid = user._id; %>
+                  <a href="#" class="btn btn-danger deleteFanArt" data-id="<%=id%>" data-userid="<%=userid%>">Delete</a>
                 </li>
               <% }); %>
             </ul>
