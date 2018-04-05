@@ -106,9 +106,11 @@ function checkFileType(file, cb){
 }
 
 app.get('*', function(req, res, next){
-  console.log('url - '+req.url);
-  res.locals.user = req.user || null;
-  next();
+
+    console.log('url - '+req.url);
+    res.locals.user = req.user || null;
+    next();
+
 });
 
 app.get('/fanArts/page/:page', function(req, res){

@@ -1,3 +1,4 @@
+
 <% include partials/header %>
 
 <div class="container">
@@ -575,8 +576,10 @@
                 <% flag1++ %>
 
                 <div class="anything">
-                  <% link = 'uploads/' + fanTheory.filename %>
-                  <img src="<%=link%>" style="width:100%;">
+                  <% let imglink; %>
+                  <% imglink = 'uploads/' + fanTheory.filename %>
+                  <% console.log('ahoy' + imglink); %>
+                  <img src="<%=imglink%>" style="width:100%;">
                   <hr>
                   <p><strong><u>Created by - </u> -</strong> <%= fanTheory.createdBy %></p>
                   <p><strong><u>Posted on</u> -</strong> <%= fanTheory.dateandtime%></p>
@@ -625,9 +628,11 @@
                 </div>
                 <br>
 
+
             <!--</a>--></li>
           <% }) %>
         </ul>
+
         <br>
         <% if(pageDescription != 'filteredff' && pageDescription != 'filteredft' && pageDescription != 'filteredfa'){ %>
           <ul class="pagination">
@@ -665,6 +670,8 @@
 
           </ul>
         <% } %>
+
+        
 
 
       </div>
